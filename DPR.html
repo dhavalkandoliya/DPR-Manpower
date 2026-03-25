@@ -412,3 +412,18 @@ alert("Copied for WhatsApp");
 </body>
 
 </html>
+
+<footer style="text-align:center; padding:12px; font-size:14px; color:#666;">
+  © 2026 | Version <span id="version">Loading...</span>
+</footer>
+
+<script>
+fetch("https://api.github.com/repos/dhavalkandoliya/DPR-Manpower/releases/latest")
+  .then(response => response.json())
+  .then(data => {
+    document.getElementById("version").innerText = data.tag_name;
+  })
+  .catch(() => {
+    document.getElementById("version").innerText = "No version";
+  });
+</script>
