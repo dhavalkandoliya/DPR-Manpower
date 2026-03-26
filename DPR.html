@@ -87,23 +87,6 @@ background:#fafafa;
 }
 
 #report{
-body{
-max-width:500px;
-margin:auto;
-}
-
-button{
-font-weight:600;
-letter-spacing:0.5px;
-}
-
-.card{
-transition:0.2s;
-}
-
-.card:active{
-transform:scale(0.98);
-}
 background:white;
 padding:25px;
 border-radius:12px;
@@ -172,14 +155,7 @@ line-height:1.6;
 <button class="blue" onclick="downloadImage()">Download Image</button>
 <button class="blue" onclick="downloadPDF()">Download PDF</button>
 <button class="whatsapp" onclick="copyWhats()">Copy WhatsApp DPR</button>
-<div class="card">
 
-<div class="sectiontitle">📂 DPR History</div>
-<input type="date" id="searchDate" onchange="loadHistory()">
-<input type="text" id="searchSite" placeholder="Search Site..." onkeyup="loadHistory()">
-<div id="historyList"></div>
-
-</div>
 
 <div id="report">
 
@@ -204,7 +180,6 @@ date.value=new Date().toISOString().split('T')[0];
 
 addCivil();
 addInterior();
-loadHistory();   // 🔥 ADD THIS
 
 }
 
@@ -378,8 +353,7 @@ rmanpower.innerHTML=
 "<div style='margin-top:12px;padding:10px;background:#e8f5e9;border-radius:8px;font-weight:bold;'>"+
 "Total Manpower : "+total+
 "</div>";
-saveHistory();
-loadHistory();
+
 }
 
 
@@ -428,94 +402,7 @@ pdf.save("DPR_"+date.value+".pdf");
 
 function copyWhats(){
 
-let data={
-date:date.value,
-site:site.value,
-report:report.innerHTML
-};
-
-let history=JSON.parse(localStorage.getItem("dprHistory")||"[]");
-
-history.unshift(data);
-
-localStorage.setItem("dprHistory",JSON.stringify(history));
-
-}
-
-
-/* LOAD HISTORY */
-function loadHistory(){
-
-let history=JSON.parse(localStorage.getItem("dprHistory")||"[]");
-
-let sDate=document.getElementById("searchDate").value;
-let sSite=document.getElementById("searchSite").value.toLowerCase();
-
-let html="";
-
-history.forEach((item,index)=>{
-
-// 🔍 FILTER LOGIC
-if(
-(sDate && item.date!==sDate) ||
-(sSite && !item.site.toLowerCase().includes(sSite))
-){
-return;
-}
-
-html+=`
-<div style="border:1px solid #ddd;padding:10px;border-radius:6px;margin-bottom:8px;">
-
-<b>${item.date}</b> - ${item.site}<br><br>
-
-<button onclick="openDPR(${index})">Open</button>
-<button style="background:red;color:white;" onclick="deleteDPR(${index})">Delete</button>
-
-</div>
-`;
-
-});
-
-if(html===""){
-html="<p style='color:#888;'>No DPR Found</p>";
-}
-
-historyList.innerHTML=html;
-
-}
-
-
-/* OPEN DPR */
-function openDPR(index){
-
-let history=JSON.parse(localStorage.getItem("dprHistory")||"[]");
-
-report.style.display="block";
-
-report.innerHTML=history[index].report;
-
-}
-
-
-/* DELETE DPR */
-function deleteDPR(index){
-
-let history=JSON.parse(localStorage.getItem("dprHistory")||"[]");
-
-if(confirm("Delete this DPR?")){
-
-history.splice(index,1);
-
-localStorage.setItem("dprHistory",JSON.stringify(history));
-
-loadHistory();
-
-}
-
-}
-let text=report.innerText.replace(/\n\n/g,"\n");
-
-navigator.clipboard.writeText(text);
+navigator.clipboard.writeText(report.innerText);
 
 alert("Copied for WhatsApp");
 
