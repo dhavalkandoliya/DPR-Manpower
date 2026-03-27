@@ -374,10 +374,10 @@ rcivil.innerHTML=
 
 
 rmanpower.innerHTML=
-sendToSheet(date.value,site.value,report.innerText,total);
 "<div style='margin-top:12px;padding:10px;background:#e8f5e9;border-radius:8px;font-weight:bold;'>"+
 "Total Manpower : "+total+
 "</div>";
+sendToSheet(date.value,site.value,report.innerText,total);
 saveHistory();
 loadHistory();
 }
@@ -422,14 +422,9 @@ pdf.save("DPR_"+date.value+".pdf");
 
 }
 
-
-
-/* COPY WHATSAPP */
-
-function copyWhats(){
 function sendToSheet(date,site,report,total){
 
-fetch("https://script.google.com/macros/s/AKfycbwLVPVow9XWuxSjJfWj8_Tt1YSzDicO4-c2L2NdB_nRuiKRQE9uMEuaYZjLS_HLwcjuxA/exec",{
+fetch("https://script.google.com/macros/s/AKfycbxKObE3lDjW7XTrOqcDcf9mVfLnodNUmOZvDt_ANnnqVXjA_GqDd_VXn_kD2KRpEVXUlw/exec",{
 method:"POST",
 body:JSON.stringify({
 date:date,
@@ -447,6 +442,18 @@ console.error("Error:",err);
 });
 
 }
+/* COPY WHATSAPP */
+
+function copyWhats(){
+
+let text=report.innerText.replace(/\n\n/g,"\n");
+
+navigator.clipboard.writeText(text);
+
+alert("Copied for WhatsApp");
+
+}
+
 /* SAVE HISTORY */
 function saveHistory(){
 
