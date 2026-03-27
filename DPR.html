@@ -1,8 +1,13 @@
 <script>
 
+const date = document.getElementById("date");
+const site = document.getElementById("site");
+const report = document.getElementById("report");
+
 window.onload=function(){
 
-date.value=new Date().toISOString().split('T')[0];
+document.getElementById("date").value =
+new Date().toISOString().split('T')[0];
 
 addCivil();
 addInterior();
