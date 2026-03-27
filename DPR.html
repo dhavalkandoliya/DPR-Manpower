@@ -1,200 +1,3 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
-<title>Site DPR</title>
-
-<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-
-<style>
-
-body{
-font-family: "Segoe UI","Noto Color Emoji","Apple Color Emoji","Segoe UI Emoji",sans-serif;
-background:#eef2f7;
-margin:0;
-padding:15px;
-}
-
-.header{
-text-align:center;
-font-weight:bold;
-font-size:22px;
-margin-bottom:5px;
-}
-
-.subheader{
-text-align:center;
-font-weight:600;
-color:#555;
-margin-bottom:15px;
-}
-
-.card{
-background:white;
-padding:15px;
-margin-bottom:12px;
-border-radius:10px;
-box-shadow:0 2px 8px rgba(0,0,0,0.1);
-}
-
-.sectiontitle{
-font-weight:bold;
-font-size:16px;
-margin-bottom:10px;
-}
-
-label{
-font-weight:600;
-font-size:14px;
-}
-
-input,select{
-width:100%;
-padding:8px;
-margin-top:5px;
-margin-bottom:10px;
-border:1px solid #ccc;
-border-radius:6px;
-font-size:14px;
-}
-
-button{
-width:100%;
-padding:10px;
-border:none;
-border-radius:6px;
-margin-top:6px;
-font-size:14px;
-cursor:pointer;
-}
-
-.green{background:#28a745;color:white;}
-.blue{background:#1b3c74;color:white;}
-.orange{background:#ff9800;color:white;}
-.whatsapp{background:#25D366;color:white;}
-
-.activitybox{
-border:1px solid #ddd;
-padding:10px;
-border-radius:6px;
-margin-bottom:10px;
-background:#fafafa;
-}
-
-#report{
-background:white;
-padding:25px;
-border-radius:12px;
-margin-top:15px;
-display:none;
-box-shadow:0 4px 15px rgba(0,0,0,0.15);
-font-size:14px;
-line-height:1.6;
-}
-body{
-max-width:500px;
-margin:auto;
-}
-
-button{
-font-weight:600;
-letter-spacing:0.5px;
-}
-
-.card{
-transition:0.2s;
-}
-
-.card:active{
-transform:scale(0.98);
-}
-</style>
-
-</head>
-
-<body>
-
-<div class="header">MAN POWER REPORT</div>
-<div class="subheader">Trust Project Department</div>
-
-
-<div class="card">
-
-<label>Date</label>
-<input type="date" id="date">
-
-<label>Site</label>
-<select id="site">
-<option>Amba School</option>
-<option>Adalaj Mandir Podium Work</option>
-<option>ABP 540 Office</option>
-<option>Baheno Gurukul</option>
-<option>UGWT-Old Vatsalya</option>  
-<option>Compound Wall-Raj Marg</option>
-</select>
-
-</div>
-
-
-<!-- CIVIL SECTION -->
-
-<div class="card">
-
-<div class="sectiontitle">🏗️ Civil Work</div>
-
-<div id="civilContainer"></div>
-
-<button class="orange" onclick="addCivil()">+ Add Civil Activity</button>
-
-</div>
-
-
-<!-- INTERIOR SECTION -->
-
-<div class="card">
-
-<div class="sectiontitle">🏢 Interior Work</div>
-
-<div id="interiorContainer"></div>
-
-<button class="orange" onclick="addInterior()">+ Add Interior Activity</button>
-
-</div>
-
-
-<button class="green" onclick="generate()">Generate DPR</button>
-<button class="blue" onclick="downloadImage()">Download Image</button>
-<button class="blue" onclick="downloadPDF()">Download PDF</button>
-<button class="whatsapp" onclick="copyWhats()">Copy WhatsApp DPR</button>
-<div class="card">
-
-<div class="sectiontitle">📂 DPR History</div>
-<input type="date" id="searchDate" onchange="loadHistory()">
-<input type="text" id="searchSite" placeholder="Search Site..." onkeyup="loadHistory()">
-<div id="historyList"></div>
-
-</div>
-
-<div id="report">
-
-<h3 style="margin-bottom:4px;">DPR - MAN POWER REPORT</h3>
-<p class="subheader" style="text-align:left; margin-top:0;">Trust Project Department</p>
-
-<div id="rdate"></div>
-
-<div id="rcivil"></div>
-
-<div id="rmanpower"></div>
-
-</div>
-
-
-
 <script>
 
 window.onload=function(){
@@ -203,26 +6,21 @@ date.value=new Date().toISOString().split('T')[0];
 
 addCivil();
 addInterior();
-loadHistory();   // 🔥 ADD THIS
+loadHistory();
 
 }
 
 
-
 /* CIVIL ACTIVITY */
-
 function addCivil(){
 
 let div=document.createElement("div");
-
 div.className="activitybox";
 
 div.innerHTML=`
-
 <label>Activity</label>
 
 <select class="activity">
-
 <option> RCC Work</option> 
 <option> Brick Work</option>
 <option> Plaster</option>
@@ -232,55 +30,6 @@ div.innerHTML=`
 <option> Epoxy Grouting</option>
 <option> Plumbing</option>
 <option> Misc. Work</option>
-
-</select>
-
-<label>Skilled</label>
-<input type="number" class="skill" value="0" min="0">
-
-<label>Unskilled</label>
-<input type="number" class="unskill" value="0" min="0">
-
-<label>Note:- (Optional)</label>
-<input type="text" class="desc"> placeholder="Work Location or note for this activity">
-
-<button style="background:red;color:white;" onclick="this.parentElement.remove()">Delete</button>
-
-`;
-
-civilContainer.appendChild(div);
-
-}
-
-
-
-/* INTERIOR ACTIVITY */
-
-function addInterior(){
-
-let div=document.createElement("div");
-
-div.className="activitybox";
-
-div.innerHTML=`
-
-<label>Activity</label>
-
-<select class="activity">
-
-<option> Furniture Work</option>
-<option> Modular Furniture Work</option>
-<option> HVAC Work</option>
-<option> Electrical Work</option>
-<option> IT Work</option>
-<option> Aluminium Work</option>
-<option> CCTV Work</option>
-<option> Paint Work</option>
-<option> Lift Work</option>
-<option> Fabrication Work</option>
-<option> Cleaning Work</option>
-<option> Misc. Work</option>
-
 </select>
 
 <label>Skilled</label>
@@ -293,7 +42,47 @@ div.innerHTML=`
 <input type="text" class="desc" placeholder="Work Location or note for this activity">
 
 <button style="background:red;color:white;" onclick="this.parentElement.remove()">Delete</button>
+`;
 
+civilContainer.appendChild(div);
+
+}
+
+
+/* INTERIOR ACTIVITY */
+function addInterior(){
+
+let div=document.createElement("div");
+div.className="activitybox";
+
+div.innerHTML=`
+<label>Activity</label>
+
+<select class="activity">
+<option> Furniture Work</option>
+<option> Modular Furniture Work</option>
+<option> HVAC Work</option>
+<option> Electrical Work</option>
+<option> IT Work</option>
+<option> Aluminium Work</option>
+<option> CCTV Work</option>
+<option> Paint Work</option>
+<option> Lift Work</option>
+<option> Fabrication Work</option>
+<option> Cleaning Work</option>
+<option> Misc. Work</option>
+</select>
+
+<label>Skilled</label>
+<input type="number" class="skill" value="0" min="0">
+
+<label>Unskilled</label>
+<input type="number" class="unskill" value="0" min="0">
+
+<label>Note:- (Optional)</label>
+<input type="text" class="desc" placeholder="Work Location or note for this activity">
+
+<button style="background:red;color:white;" onclick="this.parentElement.remove()">Delete</button>
 `;
 
 interiorContainer.appendChild(div);
@@ -301,9 +90,7 @@ interiorContainer.appendChild(div);
 }
 
 
-
 /* GENERATE DPR */
-
 function generate(){
 
 report.style.display="block";
@@ -322,9 +109,7 @@ let civil="";
 let interior="";
 let total=0;
 
-
-/* CIVIL RESULT */
-
+/* CIVIL */
 for(let i=0;i<civilAct.length;i++){
 
 let skilled=Math.max(0,Number(civilSk[i].value));
@@ -332,19 +117,15 @@ let unskilled=Math.max(0,Number(civilUn[i].value));
 let desc=civilDesc[i].value;
 
 civil+=
-"<div style='margin-bottom:6px;'>"+
-"<u>"+civilAct[i].value+"</u><br>"+
+"<div><u>"+civilAct[i].value+"</u><br>"+
 "Skilled : "+skilled+" | Unskilled : "+unskilled+
 (desc ? "<br><i>"+desc+"</i>" : "")+
 "</div>";
 
 total+=skilled+unskilled;
-
 }
 
-
-/* INTERIOR RESULT */
-
+/* INTERIOR */
 for(let i=0;i<intAct.length;i++){
 
 let skilled=Math.max(0,Number(intSk[i].value));
@@ -352,99 +133,34 @@ let unskilled=Math.max(0,Number(intUn[i].value));
 let desc=intDesc[i].value;
 
 interior+=
-"<div style='margin-bottom:6px;'>"+
-"<u>"+intAct[i].value+"</u><br>"+
+"<div><u>"+intAct[i].value+"</u><br>"+
 "Skilled : "+skilled+" | Unskilled : "+unskilled+
 (desc ? "<br><i>"+desc+"</i>" : "")+
 "</div>";
 
 total+=skilled+unskilled;
-
 }
 
+rdate.innerHTML="Date : "+date.value+"<br><b>📍Site : "+site.value+"</b><br><br>";
+rcivil.innerHTML="🏗️ <b>Civil Work</b><br>"+civil+"<br>🏢 <b>Interior Work</b><br>"+interior;
+rmanpower.innerHTML="<div style='margin-top:12px;padding:10px;background:#e8f5e9;border-radius:8px;font-weight:bold;'>Total Manpower : "+total+"</div>";
 
-
-rdate.innerHTML=
-"Date : "+date.value+
-"<br><b>📍Site : "+site.value+"</b><br><br>";
-
-rcivil.innerHTML=
-"🏗️ <b>Civil Work</b><br>"+civil+
-"<br>🏢 <b>Interior Work</b><br>"+interior;
-
-
-rmanpower.innerHTML=
-"<div style='margin-top:12px;padding:10px;background:#e8f5e9;border-radius:8px;font-weight:bold;'>"+
-"Total Manpower : "+total+
-"</div>";
 sendToSheet(date.value,site.value,report.innerText,total);
 saveHistory();
 loadHistory();
-}
-
-
-
-/* DOWNLOAD IMAGE */
-
-function downloadImage(){
-
-html2canvas(report).then(canvas=>{
-
-let link=document.createElement("a");
-
-link.download="DPR_"+date.value+".png";
-
-link.href=canvas.toDataURL();
-
-link.click();
-
-});
 
 }
 
 
-
-/* DOWNLOAD PDF */
-
-function downloadPDF(){
-
-html2canvas(report).then(canvas=>{
-
-const {jsPDF}=window.jspdf;
-
-let pdf=new jsPDF();
-
-pdf.addImage(canvas.toDataURL(),'PNG',10,10,180,0);
-
-pdf.save("DPR_"+date.value+".pdf");
-
-});
-
-}
-
-function sendToSheet(date,site,report,total){
-
-fetch("https://script.google.com/macros/s/AKfycbxbFqkXgtAiQpCRJVH4gT6-L72vXqpvI0UqUYmbJJ_e7vQyXJ0gXBLENYht6_Ak2QYaDw/exec",{
-method:"POST",
-body:JSON.stringify({
-date:date,
-site:site,
-report:report,
-total:total
-})
-})
-.then(res=>res.text())
-.then(data=>{
-console.log("Saved to Google Sheet");
-})
-.catch(err=>{
-console.error("Error:",err);
-});
-
-}
 /* COPY WHATSAPP */
-
 function copyWhats(){
+
+let text=report.innerText.replace(/\n\n/g,"\n");
+navigator.clipboard.writeText(text);
+alert("Copied for WhatsApp");
+
+}
+
 
 /* SAVE HISTORY */
 function saveHistory(){
@@ -456,9 +172,7 @@ report:report.innerHTML
 };
 
 let history=JSON.parse(localStorage.getItem("dprHistory")||"[]");
-
 history.unshift(data);
-
 localStorage.setItem("dprHistory",JSON.stringify(history));
 
 }
@@ -476,7 +190,6 @@ let html="";
 
 history.forEach((item,index)=>{
 
-// 🔍 FILTER LOGIC
 if(
 (sDate && item.date!==sDate) ||
 (sSite && !item.site.toLowerCase().includes(sSite))
@@ -486,22 +199,15 @@ return;
 
 html+=`
 <div style="border:1px solid #ddd;padding:10px;border-radius:6px;margin-bottom:8px;">
-
 <b>${item.date}</b> - ${item.site}<br><br>
-
 <button onclick="openDPR(${index})">Open</button>
 <button style="background:red;color:white;" onclick="deleteDPR(${index})">Delete</button>
-
 </div>
 `;
 
 });
 
-if(html===""){
-html="<p style='color:#888;'>No DPR Found</p>";
-}
-
-historyList.innerHTML=html;
+historyList.innerHTML = html || "<p style='color:#888;'>No DPR Found</p>";
 
 }
 
@@ -510,9 +216,7 @@ historyList.innerHTML=html;
 function openDPR(index){
 
 let history=JSON.parse(localStorage.getItem("dprHistory")||"[]");
-
 report.style.display="block";
-
 report.innerHTML=history[index].report;
 
 }
@@ -524,41 +228,25 @@ function deleteDPR(index){
 let history=JSON.parse(localStorage.getItem("dprHistory")||"[]");
 
 if(confirm("Delete this DPR?")){
-
 history.splice(index,1);
-
 localStorage.setItem("dprHistory",JSON.stringify(history));
-
 loadHistory();
-
 }
 
 }
-let text=report.innerText.replace(/\n\n/g,"\n");
 
-navigator.clipboard.writeText(text);
 
-alert("Copied for WhatsApp");
+/* GOOGLE SHEET */
+function sendToSheet(date,site,report,total){
+
+fetch("https://script.google.com/macros/s/AKfycbxbFqkXgtAiQpCRJVH4gT6-L72vXqpvI0UqUYmbJJ_e7vQyXJ0gXBLENYht6_Ak2QYaDw/exec",{
+method:"POST",
+body:JSON.stringify({date,site,report,total})
+})
+.then(res=>res.text())
+.then(()=>console.log("Saved"))
+.catch(err=>console.error(err));
 
 }
 
-</script>
-
-</body>
-
-</html>
-
-<footer style="text-align:center; padding:12px; font-size:14px; color:#666;">
-  © 2026 | Version <span id="version">Loading...</span>
-</footer>
-
-<script>
-fetch("https://api.github.com/repos/dhavalkandoliya/DPR-Manpower/releases/latest")
-  .then(response => response.json())
-  .then(data => {
-    document.getElementById("version").innerText = data.tag_name;
-  })
-  .catch(() => {
-    document.getElementById("version").innerText = "No version";
-  });
 </script>
