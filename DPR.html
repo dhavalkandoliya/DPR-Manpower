@@ -1,564 +1,747 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Site DPR - Man Power Report</title>
 
-<title>Site DPR</title>
-
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Noto+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <style>
+/* ── CSS Variables ── */
+:root{
+  --bg:#eef2f7;
+  --card:#ffffff;
+  --primary:#1b3c74;
+  --primary-light:#e8edf5;
+  --accent:#f57c00;
+  --green:#2e7d32;
+  --red:#c62828;
+  --whatsapp:#128C7E;
+  --text:#1a1a2e;
+  --muted:#6b7280;
+  --border:#e2e8f0;
+  --shadow:0 2px 10px rgba(0,0,0,0.08);
+  --radius:10px;
+}
+
+*{ box-sizing:border-box; margin:0; padding:0; }
 
 body{
-font-family: "Segoe UI","Noto Color Emoji","Apple Color Emoji","Segoe UI Emoji",sans-serif;
-background:#eef2f7;
-margin:0;
-padding:15px;
+  font-family:'Noto Sans', sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  padding:16px;
+  max-width:520px;
+  margin:auto;
+  min-height:100vh;
 }
 
-.header{
-text-align:center;
-font-weight:bold;
-font-size:22px;
-margin-bottom:5px;
+/* ── Header ── */
+.header-wrap{
+  text-align:center;
+  margin-bottom:18px;
+  padding:20px 16px 16px;
+  background:var(--primary);
+  border-radius:var(--radius);
+  color:white;
+  box-shadow:0 4px 16px rgba(27,60,116,0.3);
 }
 
-.subheader{
-text-align:center;
-font-weight:600;
-color:#555;
-margin-bottom:15px;
+.header-wrap .logo{
+  font-family:'Rajdhani', sans-serif;
+  font-size:26px;
+  font-weight:700;
+  letter-spacing:1px;
+  line-height:1.2;
 }
 
+.header-wrap .sub{
+  font-size:13px;
+  opacity:0.8;
+  margin-top:4px;
+}
+
+/* ── Cards ── */
 .card{
-background:white;
-padding:15px;
-margin-bottom:12px;
-border-radius:10px;
-box-shadow:0 2px 8px rgba(0,0,0,0.1);
+  background:var(--card);
+  padding:16px;
+  margin-bottom:12px;
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  border:1px solid var(--border);
 }
 
-.sectiontitle{
-font-weight:bold;
-font-size:16px;
-margin-bottom:10px;
+.section-title{
+  font-family:'Rajdhani', sans-serif;
+  font-weight:700;
+  font-size:17px;
+  color:var(--primary);
+  margin-bottom:12px;
+  padding-bottom:8px;
+  border-bottom:2px solid var(--primary-light);
+  display:flex;
+  align-items:center;
+  gap:6px;
 }
 
+/* ── Form Elements ── */
 label{
-font-weight:600;
-font-size:14px;
+  font-weight:600;
+  font-size:13px;
+  color:var(--muted);
+  display:block;
+  margin-bottom:4px;
+  text-transform:uppercase;
+  letter-spacing:0.4px;
 }
 
-input,select{
-width:100%;
-padding:8px;
-margin-top:5px;
-margin-bottom:10px;
-border:1px solid #ccc;
-border-radius:6px;
-font-size:14px;
+input, select{
+  width:100%;
+  padding:9px 12px;
+  margin-bottom:10px;
+  border:1.5px solid var(--border);
+  border-radius:8px;
+  font-size:14px;
+  font-family:'Noto Sans', sans-serif;
+  background:#fafbfc;
+  color:var(--text);
+  transition:border-color 0.2s;
+  appearance:none;
+  -webkit-appearance:none;
 }
 
-button{
-width:100%;
-padding:10px;
-border:none;
-border-radius:6px;
-margin-top:6px;
-font-size:14px;
-cursor:pointer;
+input:focus, select:focus{
+  outline:none;
+  border-color:var(--primary);
+  background:#fff;
 }
 
-.green{background:#28a745;color:white;}
-.blue{background:#1b3c74;color:white;}
-.orange{background:#ff9800;color:white;}
-.whatsapp{background:#25D366;color:white;}
-
+/* ── Activity Box ── */
 .activitybox{
-border:1px solid #ddd;
-padding:10px;
-border-radius:6px;
-margin-bottom:10px;
-background:#fafafa;
+  border:1.5px solid var(--border);
+  padding:12px;
+  border-radius:8px;
+  margin-bottom:10px;
+  background:#f8fafc;
+  position:relative;
 }
 
-#report{
-background:white;
-padding:25px;
-border-radius:12px;
-margin-top:15px;
-display:none;
-box-shadow:0 4px 15px rgba(0,0,0,0.15);
-font-size:14px;
-line-height:1.6;
-}
-body{
-max-width:500px;
-margin:auto;
+.activitybox .row2{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
 }
 
+.activitybox .row2 input{
+  margin-bottom:0;
+}
+
+.activitybox .delete-btn{
+  background:var(--red);
+  color:white;
+  border:none;
+  border-radius:6px;
+  padding:7px 14px;
+  font-size:13px;
+  font-weight:600;
+  cursor:pointer;
+  margin-top:8px;
+  width:100%;
+  font-family:'Noto Sans', sans-serif;
+  transition:opacity 0.2s;
+}
+.activitybox .delete-btn:hover{ opacity:0.85; }
+
+/* ── Buttons ── */
 button{
-font-weight:600;
-letter-spacing:0.5px;
+  width:100%;
+  padding:11px;
+  border:none;
+  border-radius:8px;
+  margin-top:6px;
+  font-size:14px;
+  font-weight:600;
+  cursor:pointer;
+  font-family:'Noto Sans', sans-serif;
+  letter-spacing:0.4px;
+  transition:opacity 0.2s, transform 0.1s;
+}
+button:active{ transform:scale(0.98); }
+button:hover{ opacity:0.9; }
+
+.btn-add   { background:var(--accent); color:white; }
+.btn-green { background:var(--green);  color:white; }
+.btn-blue  { background:var(--primary);color:white; }
+.btn-wa    { background:var(--whatsapp);color:white;}
+
+.btn-group{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin-top:6px;
 }
 
-.card{
-transition:0.2s;
+/* ── Report ── */
+#report{
+  background:white;
+  padding:20px;
+  border-radius:var(--radius);
+  margin-top:12px;
+  display:none;
+  box-shadow:var(--shadow);
+  font-size:14px;
+  line-height:1.7;
+  border:1px solid var(--border);
 }
 
-.card:active{
-transform:scale(0.98);
+#report h3{
+  font-family:'Rajdhani', sans-serif;
+  font-size:20px;
+  color:var(--primary);
+  margin-bottom:2px;
+}
+
+.report-site{
+  font-weight:600;
+  font-size:13px;
+  color:var(--muted);
+  margin-bottom:12px;
+}
+
+.report-section-title{
+  font-weight:700;
+  font-size:14px;
+  color:var(--primary);
+  margin:12px 0 6px;
+  padding:4px 8px;
+  background:var(--primary-light);
+  border-radius:5px;
+}
+
+.report-activity{
+  margin-bottom:8px;
+  padding:8px 10px;
+  border-left:3px solid var(--accent);
+  background:#fffbf5;
+  border-radius:0 6px 6px 0;
+}
+
+.report-activity u{
+  font-weight:600;
+  font-size:14px;
+}
+
+.report-total{
+  margin-top:14px;
+  padding:12px;
+  background:#e8f5e9;
+  border-radius:8px;
+  font-weight:700;
+  font-size:15px;
+  text-align:center;
+  color:var(--green);
+  border:1.5px solid #a5d6a7;
+}
+
+/* ── History ── */
+.history-item{
+  border:1.5px solid var(--border);
+  padding:10px 12px;
+  border-radius:8px;
+  margin-bottom:8px;
+  background:#fafbfc;
+}
+
+.history-item .hbtn-group{
+  display:flex;
+  gap:8px;
+  margin-top:8px;
+}
+
+.history-item .hbtn-group button{
+  margin-top:0;
+  padding:7px;
+  font-size:12px;
+}
+
+.history-meta{
+  font-size:13px;
+  font-weight:600;
+  color:var(--text);
+}
+.history-site{
+  font-size:12px;
+  color:var(--muted);
+  margin-top:2px;
+}
+
+/* ── Toast ── */
+#toast{
+  position:fixed;
+  bottom:24px;
+  left:50%;
+  transform:translateX(-50%) translateY(20px);
+  background:#1a1a2e;
+  color:white;
+  padding:10px 20px;
+  border-radius:24px;
+  font-size:13px;
+  font-weight:600;
+  opacity:0;
+  transition:opacity 0.3s, transform 0.3s;
+  z-index:999;
+  pointer-events:none;
+  white-space:nowrap;
+}
+#toast.show{
+  opacity:1;
+  transform:translateX(-50%) translateY(0);
+}
+
+/* ── Footer ── */
+footer{
+  text-align:center;
+  padding:16px 12px;
+  font-size:12px;
+  color:var(--muted);
+  margin-top:8px;
 }
 </style>
-
 </head>
 
 <body>
 
-<div class="header">MAN POWER REPORT</div>
-<div class="subheader">Trust Project Department</div>
-
-
-<div class="card">
-
-<label>Date</label>
-<input type="date" id="date">
-
-<label>Site</label>
-<select id="site">
-<option>Amba School</option>
-<option>Adalaj Mandir Podium Work</option>
-<option>ABP 540 Office</option>
-<option>Baheno Gurukul</option>
-<option>UGWT-Old Vatsalya</option>  
-<option>Compound Wall-Raj Marg</option>
-</select>
-
+<!-- HEADER -->
+<div class="header-wrap">
+  <div class="logo">📋 MAN POWER REPORT</div>
+  <div class="sub">Trust Project Department — Daily Progress Report</div>
 </div>
 
+<!-- DATE & SITE -->
+<div class="card">
+  <label>Date</label>
+  <input type="date" id="date">
+  <label>Site</label>
+  <select id="site">
+    <option>Amba School</option>
+    <option>Adalaj Mandir Podium Work</option>
+    <option>ABP 540 Office</option>
+    <option>Baheno Gurukul</option>
+    <option>UGWT-Old Vatsalya</option>
+    <option>Compound Wall-Raj Marg</option>
+  </select>
+</div>
 
 <!-- CIVIL SECTION -->
-
 <div class="card">
-
-<div class="sectiontitle">🏗️ Civil Work</div>
-
-<div id="civilContainer"></div>
-
-<button class="orange" onclick="addCivil()">+ Add Civil Activity</button>
-
+  <div class="section-title">🏗️ Civil Work</div>
+  <div id="civilContainer"></div>
+  <button class="btn-add" onclick="addActivity('civilContainer','civil')">+ Add Civil Activity</button>
 </div>
-
 
 <!-- INTERIOR SECTION -->
-
 <div class="card">
-
-<div class="sectiontitle">🏢 Interior Work</div>
-
-<div id="interiorContainer"></div>
-
-<button class="orange" onclick="addInterior()">+ Add Interior Activity</button>
-
+  <div class="section-title">🏢 Interior Work</div>
+  <div id="interiorContainer"></div>
+  <button class="btn-add" onclick="addActivity('interiorContainer','interior')">+ Add Interior Activity</button>
 </div>
 
+<!-- ACTION BUTTONS -->
+<button class="btn-green" onclick="generate()">✅ Generate DPR</button>
+<div class="btn-group">
+  <button class="btn-blue" onclick="downloadImage()">📷 Download Image</button>
+  <button class="btn-blue" onclick="downloadPDF()">📄 Download PDF</button>
+</div>
+<button class="btn-wa" onclick="copyWhats()">💬 Copy for WhatsApp</button>
 
-<button class="green" onclick="generate()">Generate DPR</button>
-<button class="blue" onclick="downloadImage()">Download Image</button>
-<button class="blue" onclick="downloadPDF()">Download PDF</button>
-<button class="whatsapp" onclick="copyWhats()">Copy WhatsApp DPR</button>
-<div class="card">
-
-<div class="sectiontitle">📂 DPR History</div>
-<input type="date" id="searchDate" onchange="loadHistory()">
-<input type="text" id="searchSite" placeholder="Search Site..." onkeyup="loadHistory()">
-<div id="historyList"></div>
-
+<!-- HISTORY -->
+<div class="card" style="margin-top:14px;">
+  <div class="section-title">📂 DPR History</div>
+  <label>Filter by Date</label>
+  <input type="date" id="searchDate" onchange="renderHistory()">
+  <label>Search by Site</label>
+  <input type="text" id="searchSite" placeholder="Type site name..." oninput="renderHistory()">
+  <div id="historyList"></div>
 </div>
 
+<!-- GENERATED REPORT -->
 <div id="report">
-
-<h3 style="margin-bottom:4px;">DPR - MAN POWER REPORT</h3>
-<p class="subheader" style="text-align:left; margin-top:0;">Trust Project Department</p>
-
-<div id="rdate"></div>
-
-<div id="rcivil"></div>
-
-<div id="rmanpower"></div>
-
+  <h3>DPR — MAN POWER REPORT</h3>
+  <div class="report-site" id="rdate"></div>
+  <div id="rcivil"></div>
+  <div id="rmanpower"></div>
 </div>
 
+<!-- TOAST -->
+<div id="toast"></div>
 
+<footer>© 2026 Trust Project Department &nbsp;|&nbsp; Version <span id="version">—</span></footer>
 
 <script>
-
-window.onload=function(){
-
-date.value=new Date().toISOString().split('T')[0];
-
-addCivil();
-addInterior();
-loadHistory();   // 🔥 ADD THIS
-
-}
-
-
-
-/* CIVIL ACTIVITY */
-
-function addCivil(){
-
-let div=document.createElement("div");
-
-div.className="activitybox";
-
-div.innerHTML=`
-
-<label>Activity</label>
-
-<select class="activity">
-
-<option> RCC Work</option> 
-<option> Brick Work</option>
-<option> Plaster</option>
-<option> Waterproofing Work</option>
-<option> Tile Flooring</option>
-<option> Marble Flooring</option>
-<option> Epoxy Grouting</option>
-<option> Plumbing</option>
-<option> Misc. Work</option>
-
-</select>
-
-<label>Skilled</label>
-<input type="number" class="skill" value="0" min="0">
-
-<label>Unskilled</label>
-<input type="number" class="unskill" value="0" min="0">
-
-<label>Note:- (Optional)</label>
-<input type="text" class="desc"> placeholder="Work Location or note for this activity">
-
-<button style="background:red;color:white;" onclick="this.parentElement.remove()">Delete</button>
-
-`;
-
-civilContainer.appendChild(div);
-
-}
-
-
-
-/* INTERIOR ACTIVITY */
-
-function addInterior(){
-
-let div=document.createElement("div");
-
-div.className="activitybox";
-
-div.innerHTML=`
-
-<label>Activity</label>
-
-<select class="activity">
-
-<option> Furniture Work</option>
-<option> Modular Furniture Work</option>
-<option> HVAC Work</option>
-<option> Electrical Work</option>
-<option> IT Work</option>
-<option> Aluminium Work</option>
-<option> CCTV Work</option>
-<option> Paint Work</option>
-<option> Lift Work</option>
-<option> Fabrication Work</option>
-<option> Cleaning Work</option>
-<option> Misc. Work</option>
-
-</select>
-
-<label>Skilled</label>
-<input type="number" class="skill" value="0" min="0">
-
-<label>Unskilled</label>
-<input type="number" class="unskill" value="0" min="0">
-
-<label>Note:- (Optional)</label>
-<input type="text" class="desc" placeholder="Work Location or note for this activity">
-
-<button style="background:red;color:white;" onclick="this.parentElement.remove()">Delete</button>
-
-`;
-
-interiorContainer.appendChild(div);
-
-}
-
-
-
-/* GENERATE DPR */
-
-function generate(){
-
-report.style.display="block";
-
-let civilAct=document.querySelectorAll("#civilContainer .activity");
-let civilSk=document.querySelectorAll("#civilContainer .skill");
-let civilUn=document.querySelectorAll("#civilContainer .unskill");
-let civilDesc=document.querySelectorAll("#civilContainer .desc");
-
-let intAct=document.querySelectorAll("#interiorContainer .activity");
-let intSk=document.querySelectorAll("#interiorContainer .skill");
-let intUn=document.querySelectorAll("#interiorContainer .unskill");
-let intDesc=document.querySelectorAll("#interiorContainer .desc");
-
-let civil="";
-let interior="";
-let total=0;
-
-
-/* CIVIL RESULT */
-
-for(let i=0;i<civilAct.length;i++){
-
-let skilled=Math.max(0,Number(civilSk[i].value));
-let unskilled=Math.max(0,Number(civilUn[i].value));
-let desc=civilDesc[i].value;
-
-civil+=
-"<div style='margin-bottom:6px;'>"+
-"<u>"+civilAct[i].value+"</u><br>"+
-"Skilled : "+skilled+" | Unskilled : "+unskilled+
-(desc ? "<br><i>"+desc+"</i>" : "")+
-"</div>";
-
-total+=skilled+unskilled;
-
-}
-
-
-/* INTERIOR RESULT */
-
-for(let i=0;i<intAct.length;i++){
-
-let skilled=Math.max(0,Number(intSk[i].value));
-let unskilled=Math.max(0,Number(intUn[i].value));
-let desc=intDesc[i].value;
-
-interior+=
-"<div style='margin-bottom:6px;'>"+
-"<u>"+intAct[i].value+"</u><br>"+
-"Skilled : "+skilled+" | Unskilled : "+unskilled+
-(desc ? "<br><i>"+desc+"</i>" : "")+
-"</div>";
-
-total+=skilled+unskilled;
-
-}
-
-
-
-rdate.innerHTML=
-"Date : "+date.value+
-"<br><b>📍Site : "+site.value+"</b><br><br>";
-
-rcivil.innerHTML=
-"🏗️ <b>Civil Work</b><br>"+civil+
-"<br>🏢 <b>Interior Work</b><br>"+interior;
-
-
-rmanpower.innerHTML=
-"<div style='margin-top:12px;padding:10px;background:#e8f5e9;border-radius:8px;font-weight:bold;'>"+
-"Total Manpower : "+total+
-"</div>";
-sendToSheet(date.value,site.value,report.innerText,total);
-saveHistory();
-loadHistory();
-}
-
-
-
-/* DOWNLOAD IMAGE */
-
-function downloadImage(){
-
-html2canvas(report).then(canvas=>{
-
-let link=document.createElement("a");
-
-link.download="DPR_"+date.value+".png";
-
-link.href=canvas.toDataURL();
-
-link.click();
-
-});
-
-}
-
-
-
-/* DOWNLOAD PDF */
-
-function downloadPDF(){
-
-html2canvas(report).then(canvas=>{
-
-const {jsPDF}=window.jspdf;
-
-let pdf=new jsPDF();
-
-pdf.addImage(canvas.toDataURL(),'PNG',10,10,180,0);
-
-pdf.save("DPR_"+date.value+".pdf");
-
-});
-
-}
-
-function sendToSheet(date,site,report,total){
-
-fetch("https://script.google.com/macros/s/AKfycbxbFqkXgtAiQpCRJVH4gT6-L72vXqpvI0UqUYmbJJ_e7vQyXJ0gXBLENYht6_Ak2QYaDw/exec",{
-method:"POST",
-body:JSON.stringify({
-date:date,
-site:site,
-report:report,
-total:total
-})
-})
-.then(res=>res.text())
-.then(data=>{
-console.log("Saved to Google Sheet");
-})
-.catch(err=>{
-console.error("Error:",err);
-});
-
-}
-/* COPY WHATSAPP */
-
-function copyWhats(){
-
-/* SAVE HISTORY */
-function saveHistory(){
-
-let data={
-date:date.value,
-site:site.value,
-report:report.innerHTML
+/* ══════════════════════════════════════════
+   CIVIL & INTERIOR ACTIVITY OPTIONS
+══════════════════════════════════════════ */
+const CIVIL_OPTIONS = [
+  "RCC Work","Brick Work","Plaster","Waterproofing Work",
+  "Tile Flooring","Marble Flooring","Epoxy Grouting","Plumbing","Misc. Work"
+];
+
+const INTERIOR_OPTIONS = [
+  "Furniture Work","Modular Furniture Work","HVAC Work","Electrical Work",
+  "IT Work","Aluminium Work","CCTV Work","Paint Work","Lift Work",
+  "Fabrication Work","Cleaning Work","Misc. Work"
+];
+
+/* ══════════════════════════════════════════
+   INIT
+══════════════════════════════════════════ */
+window.onload = function(){
+  document.getElementById('date').value = new Date().toISOString().split('T')[0];
+  addActivity('civilContainer','civil');
+  addActivity('interiorContainer','interior');
+  loadHistory();
+  loadVersion();
 };
 
-let history=JSON.parse(localStorage.getItem("dprHistory")||"[]");
+/* ══════════════════════════════════════════
+   ADD ACTIVITY — only unused options in new dropdown
+   When a dropdown changes or a row is deleted,
+   refresh all dropdowns in that container.
+══════════════════════════════════════════ */
+function addActivity(containerId, type){
+  const allOptions = type === 'civil' ? CIVIL_OPTIONS : INTERIOR_OPTIONS;
+  const container  = document.getElementById(containerId);
 
-history.unshift(data);
+  // Which activities are already selected in this container?
+  const usedNow = getUsedActivities(containerId);
 
-localStorage.setItem("dprHistory",JSON.stringify(history));
+  // Available = all minus already-used (always keep "Misc. Work" available)
+  const available = allOptions.filter(o => !usedNow.includes(o) || o === 'Misc. Work');
 
+  if(available.length === 0){
+    showToast('⚠️ Saari activities already add ho gayi hain!');
+    return;
+  }
+
+  const optionsHTML = available.map(o => `<option value="${o}">${o}</option>`).join('');
+
+  const div = document.createElement('div');
+  div.className = 'activitybox';
+  div.dataset.type = type;  // store type for refresh
+  div.innerHTML = `
+    <label>Activity</label>
+    <select class="activity" onchange="refreshDropdowns('${containerId}','${type}')">${optionsHTML}</select>
+
+    <div class="row2">
+      <div>
+        <label>Skilled</label>
+        <input type="number" class="skill" value="0" min="0">
+      </div>
+      <div>
+        <label>Unskilled</label>
+        <input type="number" class="unskill" value="0" min="0">
+      </div>
+    </div>
+
+    <label style="margin-top:8px;">Note (Optional)</label>
+    <input type="text" class="desc" placeholder="Work location or note...">
+
+    <button class="delete-btn" onclick="removeActivity(this,'${containerId}','${type}')">🗑️ Delete</button>
+  `;
+  container.appendChild(div);
+
+  // After adding, refresh all OTHER dropdowns so they hide this new selection
+  refreshDropdowns(containerId, type);
 }
 
+/* Returns array of currently selected activity values in a container */
+function getUsedActivities(containerId){
+  const selects = document.querySelectorAll(`#${containerId} .activity`);
+  return Array.from(selects).map(s => s.value);
+}
 
-/* LOAD HISTORY */
+/* Remove a row, then refresh dropdowns */
+function removeActivity(btn, containerId, type){
+  btn.closest('.activitybox').remove();
+  refreshDropdowns(containerId, type);
+}
+
+/* Rebuild options in every dropdown of the container,
+   keeping each row's current selection intact          */
+function refreshDropdowns(containerId, type){
+  const allOptions = type === 'civil' ? CIVIL_OPTIONS : INTERIOR_OPTIONS;
+  const container  = document.getElementById(containerId);
+  const selects    = container.querySelectorAll('.activity');
+
+  // Snapshot current selections before rebuilding
+  const currentVals = Array.from(selects).map(s => s.value);
+
+  selects.forEach((sel, idx) => {
+    const myVal = currentVals[idx];
+    // "used by others" = all selected values except my own
+    const usedByOthers = currentVals.filter((_, i) => i !== idx);
+
+    // Show: my own value + anything not used by others (Misc. Work always shown)
+    const visible = allOptions.filter(o =>
+      o === myVal || o === 'Misc. Work' || !usedByOthers.includes(o)
+    );
+
+    sel.innerHTML = visible.map(o =>
+      `<option value="${o}" ${o === myVal ? 'selected' : ''}>${o}</option>`
+    ).join('');
+  });
+}
+
+/* ══════════════════════════════════════════
+   BUILD ACTIVITY ROWS FOR REPORT
+══════════════════════════════════════════ */
+function buildActivities(containerId){
+  const container = document.getElementById(containerId);
+  const acts   = container.querySelectorAll('.activity');
+  const skills = container.querySelectorAll('.skill');
+  const unsks  = container.querySelectorAll('.unskill');
+  const descs  = container.querySelectorAll('.desc');
+
+  let html = '', subtotal = 0;
+
+  for(let i = 0; i < acts.length; i++){
+    const sk = Math.max(0, Number(skills[i].value));
+    const un = Math.max(0, Number(unsks[i].value));
+    const desc = descs[i].value.trim();
+    subtotal += sk + un;
+
+    html += `
+      <div class="report-activity">
+        <u>${acts[i].value.trim()}</u><br>
+        Skilled : <b>${sk}</b> &nbsp;|&nbsp; Unskilled : <b>${un}</b>
+        ${desc ? `<br><i style="color:#555;font-size:13px;">📌 ${desc}</i>` : ''}
+      </div>`;
+  }
+  return { html, subtotal };
+}
+
+/* ══════════════════════════════════════════
+   GENERATE DPR
+══════════════════════════════════════════ */
+function generate(){
+  const civil    = buildActivities('civilContainer');
+  const interior = buildActivities('interiorContainer');
+  const total    = civil.subtotal + interior.subtotal;
+
+  const dateVal = document.getElementById('date').value;
+  const siteVal = document.getElementById('site').value;
+
+  document.getElementById('rdate').innerHTML =
+    `<b>📅 Date :</b> ${formatDate(dateVal)} &nbsp; | &nbsp; <b>📍 Site :</b> ${siteVal}`;
+
+  document.getElementById('rcivil').innerHTML =
+    `<div class="report-section-title">🏗️ Civil Work</div>${civil.html}
+     <div class="report-section-title">🏢 Interior Work</div>${interior.html}`;
+
+  document.getElementById('rmanpower').innerHTML =
+    `<div class="report-total">👷 Total Manpower : ${total}</div>`;
+
+  document.getElementById('report').style.display = 'block';
+  document.getElementById('report').scrollIntoView({ behavior:'smooth' });
+
+  saveHistory(); // Google Sheet pe save + history reload karega
+
+  showToast('✅ DPR Generated!');
+}
+
+/* ══════════════════════════════════════════
+   FORMAT DATE (DD/MM/YYYY)
+══════════════════════════════════════════ */
+function formatDate(dateStr){
+  if(!dateStr) return dateStr;
+  const [y, m, d] = dateStr.split('-');
+  return `${d}/${m}/${y}`;
+}
+
+/* ══════════════════════════════════════════
+   DOWNLOAD IMAGE
+══════════════════════════════════════════ */
+function downloadImage(){
+  const rep = document.getElementById('report');
+  if(rep.style.display === 'none'){ showToast('⚠️ Pehle DPR Generate karein!'); return; }
+  html2canvas(rep, { scale:2 }).then(canvas => {
+    const link = document.createElement('a');
+    link.download = `DPR_${document.getElementById('date').value}.png`;
+    link.href = canvas.toDataURL();
+    link.click();
+    showToast('📷 Image Downloaded!');
+  });
+}
+
+/* ══════════════════════════════════════════
+   DOWNLOAD PDF
+══════════════════════════════════════════ */
+function downloadPDF(){
+  const rep = document.getElementById('report');
+  if(rep.style.display === 'none'){ showToast('⚠️ Pehle DPR Generate karein!'); return; }
+  html2canvas(rep, { scale:2 }).then(canvas => {
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF('p','mm','a4');
+    const w = pdf.internal.pageSize.getWidth() - 20;
+    const h = canvas.height * w / canvas.width;
+    pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 10, 10, w, h);
+    pdf.save(`DPR_${document.getElementById('date').value}.pdf`);
+    showToast('📄 PDF Downloaded!');
+  });
+}
+
+/* ══════════════════════════════════════════
+   COPY FOR WHATSAPP
+══════════════════════════════════════════ */
+function copyWhats(){
+  const rep = document.getElementById('report');
+  if(rep.style.display === 'none'){ showToast('⚠️ Pehle DPR Generate karein!'); return; }
+  const text = rep.innerText.replace(/\n{3,}/g, '\n\n');
+  navigator.clipboard.writeText(text).then(() => {
+    showToast('💬 WhatsApp ke liye Copy ho gaya!');
+  }).catch(() => {
+    // Fallback for older browsers
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    showToast('💬 Copied!');
+  });
+}
+
+/* ══════════════════════════════════════════
+   GOOGLE SHEET — SHARED DATABASE
+   Sab users ka data ek jagah, sab ko dikhe
+══════════════════════════════════════════ */
+const SHEET_URL = "https://script.google.com/macros/s/AKfycbxbFqkXgtAiQpCRJVH4gT6-L72vXqpvI0UqUYmbJJ_e7vQyXJ0gXBLENYht6_Ak2QYaDw/exec";
+
+// In-memory cache of fetched history
+let _historyCache = [];
+
+/* SAVE to Google Sheet (POST) */
+function saveHistory(){
+  const dateVal    = document.getElementById('date').value;
+  const siteVal    = document.getElementById('site').value;
+  const reportHTML = document.getElementById('report').innerHTML;
+  const reportTxt  = document.getElementById('report').innerText;
+
+  const match = reportTxt.match(/Total Manpower\s*:\s*(\d+)/);
+  const total = match ? parseInt(match[1]) : 0;
+
+  showToast('☁️ Cloud mein save ho raha hai...');
+
+  fetch(SHEET_URL, {
+    method: "POST",
+    body: JSON.stringify({ date: dateVal, site: siteVal, report: reportHTML, total: total })
+  })
+  .then(res => res.json())
+  .then(() => {
+    showToast('✅ Cloud mein save ho gaya!');
+    loadHistory();
+  })
+  .catch(err => {
+    console.error("Sheet Error:", err);
+    showToast('⚠️ Save failed — internet check karein');
+  });
+}
+
+/* LOAD history from Google Sheet (GET) — all users ka shared data */
 function loadHistory(){
+  const hl = document.getElementById('historyList');
+  hl.innerHTML = `<p style="color:#aaa;text-align:center;padding:12px;">⏳ Loading...</p>`;
 
-let history=JSON.parse(localStorage.getItem("dprHistory")||"[]");
-
-let sDate=document.getElementById("searchDate").value;
-let sSite=document.getElementById("searchSite").value.toLowerCase();
-
-let html="";
-
-history.forEach((item,index)=>{
-
-// 🔍 FILTER LOGIC
-if(
-(sDate && item.date!==sDate) ||
-(sSite && !item.site.toLowerCase().includes(sSite))
-){
-return;
+  fetch(SHEET_URL)
+    .then(res => res.json())
+    .then(data => {
+      _historyCache = Array.isArray(data) ? data : [];
+      renderHistory();
+    })
+    .catch(() => {
+      hl.innerHTML = `<p style="color:#e57373;text-align:center;padding:10px;">⚠️ History load nahi hui — internet check karein</p>`;
+    });
 }
 
-html+=`
-<div style="border:1px solid #ddd;padding:10px;border-radius:6px;margin-bottom:8px;">
+/* RENDER filtered history */
+function renderHistory(){
+  const sDate = document.getElementById('searchDate').value;
+  const sSite = document.getElementById('searchSite').value.toLowerCase().trim();
 
-<b>${item.date}</b> - ${item.site}<br><br>
+  const filtered = _historyCache.filter(item => {
+    const itemDate = typeof item.date === 'number'
+      ? formatExcelDate(item.date) : String(item.date);
+    if(sDate && itemDate !== sDate) return false;
+    if(sSite && !String(item.site).toLowerCase().includes(sSite)) return false;
+    return true;
+  });
 
-<button onclick="openDPR(${index})">Open</button>
-<button style="background:red;color:white;" onclick="deleteDPR(${index})">Delete</button>
+  const hl = document.getElementById('historyList');
 
-</div>
-`;
+  if(filtered.length === 0){
+    hl.innerHTML = `<p style="color:#aaa;text-align:center;padding:12px;">No DPR Found</p>`;
+    return;
+  }
 
-});
-
-if(html===""){
-html="<p style='color:#888;'>No DPR Found</p>";
+  hl.innerHTML = filtered.map(item => {
+    const realIdx = _historyCache.indexOf(item);
+    const itemDate = typeof item.date === 'number'
+      ? formatExcelDate(item.date) : String(item.date);
+    return `
+      <div class="history-item">
+        <div class="history-meta">📅 ${formatDate(itemDate)}</div>
+        <div class="history-site">📍 ${item.site}</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:2px;">👷 Total Workers: ${item.total}</div>
+        <div class="hbtn-group">
+          <button class="btn-blue" onclick="openDPR(${realIdx})">📂 Full Report</button>
+        </div>
+      </div>`;
+  }).join('');
 }
 
-historyList.innerHTML=html;
-
-}
-
-
-/* OPEN DPR */
+/* OPEN DPR from cache */
 function openDPR(index){
-
-let history=JSON.parse(localStorage.getItem("dprHistory")||"[]");
-
-report.style.display="block";
-
-report.innerHTML=history[index].report;
-
+  const item = _historyCache[index];
+  if(!item) return;
+  const rep = document.getElementById('report');
+  rep.style.display = 'block';
+  rep.innerHTML = item.report || '<p>Report detail available nahi hai</p>';
+  rep.scrollIntoView({ behavior:'smooth' });
 }
 
-
-/* DELETE DPR */
-function deleteDPR(index){
-
-let history=JSON.parse(localStorage.getItem("dprHistory")||"[]");
-
-if(confirm("Delete this DPR?")){
-
-history.splice(index,1);
-
-localStorage.setItem("dprHistory",JSON.stringify(history));
-
-loadHistory();
-
+/* Excel serial date number → YYYY-MM-DD */
+function formatExcelDate(serial){
+  const d = new Date(Math.round((serial - 25569) * 86400 * 1000));
+  const y = d.getUTCFullYear();
+  const m = String(d.getUTCMonth()+1).padStart(2,'0');
+  const day = String(d.getUTCDate()).padStart(2,'0');
+  return `${y}-${m}-${day}`;
 }
 
+/* ══════════════════════════════════════════
+   TOAST NOTIFICATION
+══════════════════════════════════════════ */
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
 }
-let text=report.innerText.replace(/\n\n/g,"\n");
 
-navigator.clipboard.writeText(text);
-
-alert("Copied for WhatsApp");
-
+/* ══════════════════════════════════════════
+   VERSION FROM GITHUB
+══════════════════════════════════════════ */
+function loadVersion(){
+  fetch("https://api.github.com/repos/dhavalkandoliya/DPR-Manpower/releases/latest")
+    .then(r => r.json())
+    .then(d => { document.getElementById('version').textContent = d.tag_name || '—'; })
+    .catch(() => { document.getElementById('version').textContent = 'N/A'; });
 }
-
 </script>
 
 </body>
-
 </html>
-
-<footer style="text-align:center; padding:12px; font-size:14px; color:#666;">
-  © 2026 | Version <span id="version">Loading...</span>
-</footer>
-
-<script>
-fetch("https://api.github.com/repos/dhavalkandoliya/DPR-Manpower/releases/latest")
-  .then(response => response.json())
-  .then(data => {
-    document.getElementById("version").innerText = data.tag_name;
-  })
-  .catch(() => {
-    document.getElementById("version").innerText = "No version";
-  });
-</script>
