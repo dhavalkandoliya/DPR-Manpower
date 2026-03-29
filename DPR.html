@@ -1,542 +1,607 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Site DPR - Man Power Report</title>
-
+<title>Site DPR — Man Power Report</title>
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Noto+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-
 <style>
-/* ── CSS Variables ── */
 :root{
-  --bg:#eef2f7;
-  --card:#ffffff;
-  --primary:#1b3c74;
-  --primary-light:#e8edf5;
-  --accent:#f57c00;
-  --green:#2e7d32;
-  --red:#c62828;
-  --whatsapp:#128C7E;
-  --text:#1a1a2e;
-  --muted:#6b7280;
-  --border:#e2e8f0;
-  --shadow:0 2px 10px rgba(0,0,0,0.08);
-  --radius:10px;
+  --bg:#eef2f7; --card:#fff; --primary:#1b3c74; --primary-light:#e8edf5;
+  --accent:#f57c00; --green:#2e7d32; --red:#c62828; --whatsapp:#128C7E;
+  --text:#1a1a2e; --muted:#6b7280; --border:#e2e8f0;
+  --shadow:0 2px 10px rgba(0,0,0,0.08); --radius:10px;
 }
-
 *{ box-sizing:border-box; margin:0; padding:0; }
+body{ font-family:'Noto Sans',sans-serif; background:var(--bg); color:var(--text); padding:16px; max-width:520px; margin:auto; min-height:100vh; }
 
-body{
-  font-family:'Noto Sans', sans-serif;
-  background:var(--bg);
-  color:var(--text);
-  padding:16px;
-  max-width:520px;
-  margin:auto;
-  min-height:100vh;
+/* ── LOGIN ── */
+#loginOverlay{
+  position:fixed; inset:0; background:var(--primary);
+  display:flex; align-items:center; justify-content:center;
+  z-index:9999; flex-direction:column; gap:16px; padding:24px;
 }
+.login-box{
+  background:white; border-radius:14px; padding:28px 24px;
+  width:100%; max-width:340px; box-shadow:0 8px 32px rgba(0,0,0,0.25); text-align:center;
+}
+.login-logo{ font-family:'Rajdhani',sans-serif; font-size:22px; font-weight:700; color:var(--primary); margin-bottom:4px; }
+.login-sub{ font-size:12px; color:var(--muted); margin-bottom:20px; }
+.login-err{ color:var(--red); font-size:13px; margin-top:8px; min-height:18px; }
+.user-chips{ display:flex; gap:8px; flex-wrap:wrap; justify-content:center; }
+.user-chip{ background:rgba(255,255,255,0.15); color:white; padding:5px 14px; border-radius:20px; font-size:12px; cursor:pointer; border:1px solid rgba(255,255,255,0.3); font-family:'Noto Sans',sans-serif; }
+.user-chip:hover{ background:rgba(255,255,255,0.28); }
 
-/* ── Header ── */
+/* ── HEADER ── */
 .header-wrap{
-  text-align:center;
-  margin-bottom:18px;
-  padding:20px 16px 16px;
-  background:var(--primary);
-  border-radius:var(--radius);
-  color:white;
+  margin-bottom:14px; padding:13px 16px;
+  background:var(--primary); border-radius:var(--radius); color:white;
   box-shadow:0 4px 16px rgba(27,60,116,0.3);
+  display:flex; align-items:center; justify-content:space-between;
 }
+.logo{ font-family:'Rajdhani',sans-serif; font-size:20px; font-weight:700; line-height:1.2; }
+.sub{ font-size:11px; opacity:0.7; margin-top:2px; }
+.header-right{ text-align:right; }
+.header-user{ font-size:11px; color:rgba(255,255,255,0.85); margin-bottom:4px; }
+.btn-signout{ background:rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.3); color:white; border-radius:7px; padding:5px 11px; font-size:11px; font-weight:600; cursor:pointer; font-family:'Noto Sans',sans-serif; width:auto; margin-top:0; }
 
-.header-wrap .logo{
-  font-family:'Rajdhani', sans-serif;
-  font-size:26px;
-  font-weight:700;
-  letter-spacing:1px;
-  line-height:1.2;
-}
+/* ── TABS ── */
+.tab-bar{ display:flex; gap:5px; margin-bottom:14px; background:white; padding:5px; border-radius:var(--radius); box-shadow:var(--shadow); border:1px solid var(--border); }
+.tab-btn{ flex:1; padding:8px 2px; border:none; border-radius:7px; font-size:11px; font-weight:600; cursor:pointer; font-family:'Noto Sans',sans-serif; background:transparent; color:var(--muted); transition:all 0.2s; margin-top:0; }
+.tab-btn.active{ background:var(--primary); color:white; }
 
-.header-wrap .sub{
-  font-size:13px;
-  opacity:0.8;
-  margin-top:4px;
-}
+/* ── CARD ── */
+.card{ background:var(--card); padding:16px; margin-bottom:12px; border-radius:var(--radius); box-shadow:var(--shadow); border:1px solid var(--border); }
+.section-title{ font-family:'Rajdhani',sans-serif; font-weight:700; font-size:17px; color:var(--primary); margin-bottom:12px; padding-bottom:8px; border-bottom:2px solid var(--primary-light); display:flex; align-items:center; gap:6px; }
 
-/* ── Cards ── */
-.card{
-  background:var(--card);
-  padding:16px;
-  margin-bottom:12px;
-  border-radius:var(--radius);
-  box-shadow:var(--shadow);
-  border:1px solid var(--border);
-}
+/* ── FORM ── */
+label{ font-weight:600; font-size:12px; color:var(--muted); display:block; margin-bottom:4px; text-transform:uppercase; letter-spacing:0.5px; }
+input,select,textarea{ width:100%; padding:9px 12px; margin-bottom:10px; border:1.5px solid var(--border); border-radius:8px; font-size:14px; font-family:'Noto Sans',sans-serif; background:#fafbfc; color:var(--text); transition:border-color 0.2s; appearance:none; -webkit-appearance:none; }
+input:focus,select:focus,textarea:focus{ outline:none; border-color:var(--primary); background:#fff; }
+textarea{ resize:vertical; min-height:58px; }
 
-.section-title{
-  font-family:'Rajdhani', sans-serif;
-  font-weight:700;
-  font-size:17px;
-  color:var(--primary);
-  margin-bottom:12px;
-  padding-bottom:8px;
-  border-bottom:2px solid var(--primary-light);
-  display:flex;
-  align-items:center;
-  gap:6px;
-}
+/* ── ACTIVITY BOX ── */
+.activitybox{ border:1.5px solid var(--border); padding:12px; border-radius:8px; margin-bottom:10px; background:#f8fafc; }
+.activitybox .row2{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.activitybox .row2 input{ margin-bottom:0; }
+.delete-btn{ background:var(--red); color:white; border:none; border-radius:6px; padding:7px; font-size:13px; font-weight:600; cursor:pointer; margin-top:8px; width:100%; font-family:'Noto Sans',sans-serif; }
 
-/* ── Form Elements ── */
-label{
-  font-weight:600;
-  font-size:13px;
-  color:var(--muted);
-  display:block;
-  margin-bottom:4px;
-  text-transform:uppercase;
-  letter-spacing:0.4px;
-}
+/* ── SIGNATURE ── */
+.sig-wrap{ border:1.5px dashed var(--border); border-radius:8px; overflow:hidden; margin-bottom:8px; background:white; cursor:crosshair; }
+#sigCanvas{ display:block; width:100%; height:88px; }
 
-input, select{
-  width:100%;
-  padding:9px 12px;
-  margin-bottom:10px;
-  border:1.5px solid var(--border);
-  border-radius:8px;
-  font-size:14px;
-  font-family:'Noto Sans', sans-serif;
-  background:#fafbfc;
-  color:var(--text);
-  transition:border-color 0.2s;
-  appearance:none;
-  -webkit-appearance:none;
-}
-
-input:focus, select:focus{
-  outline:none;
-  border-color:var(--primary);
-  background:#fff;
-}
-
-/* ── Activity Box ── */
-.activitybox{
-  border:1.5px solid var(--border);
-  padding:12px;
-  border-radius:8px;
-  margin-bottom:10px;
-  background:#f8fafc;
-  position:relative;
-}
-
-.activitybox .row2{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-}
-
-.activitybox .row2 input{
-  margin-bottom:0;
-}
-
-.activitybox .delete-btn{
-  background:var(--red);
-  color:white;
-  border:none;
-  border-radius:6px;
-  padding:7px 14px;
-  font-size:13px;
-  font-weight:600;
-  cursor:pointer;
-  margin-top:8px;
-  width:100%;
-  font-family:'Noto Sans', sans-serif;
-  transition:opacity 0.2s;
-}
-.activitybox .delete-btn:hover{ opacity:0.85; }
-
-/* ── Buttons ── */
-button{
-  width:100%;
-  padding:11px;
-  border:none;
-  border-radius:8px;
-  margin-top:6px;
-  font-size:14px;
-  font-weight:600;
-  cursor:pointer;
-  font-family:'Noto Sans', sans-serif;
-  letter-spacing:0.4px;
-  transition:opacity 0.2s, transform 0.1s;
-}
+/* ── BUTTONS ── */
+button{ width:100%; padding:11px; border:none; border-radius:8px; margin-top:6px; font-size:14px; font-weight:600; cursor:pointer; font-family:'Noto Sans',sans-serif; letter-spacing:0.3px; transition:opacity 0.2s,transform 0.1s; }
 button:active{ transform:scale(0.98); }
-button:hover{ opacity:0.9; }
+button:hover{ opacity:0.88; }
+.btn-add{ background:var(--accent); color:white; }
+.btn-green{ background:var(--green); color:white; }
+.btn-blue{ background:var(--primary); color:white; }
+.btn-wa{ background:var(--whatsapp); color:white; }
+.btn-red{ background:var(--red); color:white; }
+.btn-gray{ background:#607d8b; color:white; }
+.btn-sm{ padding:7px; font-size:12px; margin-top:0; }
+.btn-group{ display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:6px; }
 
-.btn-add   { background:var(--accent); color:white; }
-.btn-green { background:var(--green);  color:white; }
-.btn-blue  { background:var(--primary);color:white; }
-.btn-wa    { background:var(--whatsapp);color:white;}
+/* ── REPORT ── */
+#report{ background:white; padding:20px; border-radius:var(--radius); margin-top:12px; display:none; box-shadow:var(--shadow); font-size:14px; line-height:1.7; border:1px solid var(--border); }
+#report h3{ font-family:'Rajdhani',sans-serif; font-size:20px; color:var(--primary); margin-bottom:4px; }
+.report-section-title{ font-weight:700; font-size:13px; color:var(--primary); margin:12px 0 6px; padding:4px 9px; background:var(--primary-light); border-radius:5px; }
+.report-activity{ margin-bottom:7px; padding:8px 10px; border-left:3px solid var(--accent); background:#fffbf5; border-radius:0 6px 6px 0; }
+.report-activity u{ font-weight:700; }
+.report-total{ margin-top:14px; padding:12px; background:#e8f5e9; border-radius:8px; font-weight:700; font-size:15px; text-align:center; color:var(--green); border:1.5px solid #a5d6a7; }
+.report-supervisor{ margin-top:12px; padding:11px; background:#f3f4f6; border-radius:8px; border:1px solid var(--border); font-size:13px; }
+.report-meta{ font-size:12px; color:var(--muted); line-height:1.8; margin-bottom:10px; }
 
-.btn-group{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:8px;
-  margin-top:6px;
-}
+/* ── HISTORY ── */
+.history-item{ border:1.5px solid var(--border); padding:11px 12px; border-radius:8px; margin-bottom:8px; background:#fafbfc; }
+.hbtn-group{ display:flex; gap:8px; margin-top:8px; }
+.history-meta-line{ font-size:11px; color:var(--muted); margin-top:3px; line-height:1.7; }
+.badge{ display:inline-block; padding:2px 8px; border-radius:12px; font-size:10px; font-weight:700; margin-right:4px; }
+.badge-prep{ background:#e8edf5; color:var(--primary); }
+.badge-edit{ background:#fff3e0; color:#e65100; }
 
-/* ── Report ── */
-#report{
-  background:white;
-  padding:20px;
-  border-radius:var(--radius);
-  margin-top:12px;
-  display:none;
-  box-shadow:var(--shadow);
-  font-size:14px;
-  line-height:1.7;
-  border:1px solid var(--border);
-}
+/* ── ADMIN PANEL ── */
+.admin-user-row{ display:flex; align-items:center; justify-content:space-between; padding:9px 12px; border:1.5px solid var(--border); border-radius:8px; margin-bottom:7px; background:#fafbfc; }
+.admin-user-info{ font-size:13px; font-weight:600; }
+.admin-user-sub{ font-size:11px; color:var(--muted); margin-top:1px; }
 
-#report h3{
-  font-family:'Rajdhani', sans-serif;
-  font-size:20px;
-  color:var(--primary);
-  margin-bottom:2px;
-}
+/* ── DASHBOARD ── */
+.dash-grid{ display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:16px; }
+.dash-stat{ background:var(--primary-light); border-radius:8px; padding:14px; text-align:center; border:1px solid var(--border); }
+.dash-stat .num{ font-family:'Rajdhani',sans-serif; font-size:30px; font-weight:700; color:var(--primary); }
+.dash-stat .lbl{ font-size:11px; color:var(--muted); margin-top:2px; }
+.period-tabs{ display:flex; gap:6px; margin-bottom:12px; }
+.period-tab{ flex:1; padding:7px; border:1.5px solid var(--border); border-radius:7px; background:white; font-size:12px; font-weight:600; cursor:pointer; color:var(--muted); font-family:'Noto Sans',sans-serif; margin-top:0; }
+.period-tab.active{ background:var(--primary); color:white; border-color:var(--primary); }
+.site-row{ display:flex; align-items:center; padding:10px 12px; background:#f8fafc; border-radius:7px; margin-bottom:6px; border:1px solid var(--border); gap:12px; }
+.bar-wrap{ flex:1; height:6px; background:#e2e8f0; border-radius:4px; overflow:hidden; }
+.bar-fill{ height:100%; background:var(--accent); border-radius:4px; transition:width 0.5s; }
+.site-total{ font-family:'Rajdhani',sans-serif; font-size:20px; font-weight:700; color:var(--primary); min-width:32px; text-align:right; }
 
-.report-site{
-  font-weight:600;
-  font-size:13px;
-  color:var(--muted);
-  margin-bottom:12px;
-}
-
-.report-section-title{
-  font-weight:700;
-  font-size:14px;
-  color:var(--primary);
-  margin:12px 0 6px;
-  padding:4px 8px;
-  background:var(--primary-light);
-  border-radius:5px;
-}
-
-.report-activity{
-  margin-bottom:8px;
-  padding:8px 10px;
-  border-left:3px solid var(--accent);
-  background:#fffbf5;
-  border-radius:0 6px 6px 0;
-}
-
-.report-activity u{
-  font-weight:600;
-  font-size:14px;
-}
-
-.report-total{
-  margin-top:14px;
-  padding:12px;
-  background:#e8f5e9;
-  border-radius:8px;
-  font-weight:700;
-  font-size:15px;
-  text-align:center;
-  color:var(--green);
-  border:1.5px solid #a5d6a7;
-}
-
-/* ── History ── */
-.history-item{
-  border:1.5px solid var(--border);
-  padding:10px 12px;
-  border-radius:8px;
-  margin-bottom:8px;
-  background:#fafbfc;
-}
-
-.history-item .hbtn-group{
-  display:flex;
-  gap:8px;
-  margin-top:8px;
-}
-
-.history-item .hbtn-group button{
-  margin-top:0;
-  padding:7px;
-  font-size:12px;
-}
-
-.history-meta{
-  font-size:13px;
-  font-weight:600;
-  color:var(--text);
-}
-.history-site{
-  font-size:12px;
-  color:var(--muted);
-  margin-top:2px;
-}
-
-/* ── Toast ── */
-#toast{
-  position:fixed;
-  bottom:24px;
-  left:50%;
-  transform:translateX(-50%) translateY(20px);
-  background:#1a1a2e;
-  color:white;
-  padding:10px 20px;
-  border-radius:24px;
-  font-size:13px;
-  font-weight:600;
-  opacity:0;
-  transition:opacity 0.3s, transform 0.3s;
-  z-index:999;
-  pointer-events:none;
-  white-space:nowrap;
-}
-#toast.show{
-  opacity:1;
-  transform:translateX(-50%) translateY(0);
-}
-
-/* ── Footer ── */
-footer{
-  text-align:center;
-  padding:16px 12px;
-  font-size:12px;
-  color:var(--muted);
-  margin-top:8px;
-}
+/* ── MISC ── */
+#offlineBadge{ display:none; background:#fff3e0; border:1px solid #ffb74d; color:#e65100; padding:7px 12px; border-radius:6px; font-size:12px; font-weight:600; margin-bottom:10px; text-align:center; }
+#toast{ position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(20px); background:#1a1a2e; color:white; padding:10px 22px; border-radius:24px; font-size:13px; font-weight:600; opacity:0; transition:opacity 0.3s,transform 0.3s; z-index:9998; pointer-events:none; white-space:nowrap; }
+#toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+footer{ text-align:center; padding:16px 0; font-size:12px; color:var(--muted); }
+.tab-page{ display:none; }
+.tab-page.active{ display:block; }
+hr.light{ border:none; border-top:1px solid var(--border); margin:12px 0; }
 </style>
 </head>
-
 <body>
 
-<!-- HEADER -->
+<!-- ══ LOGIN ══ -->
+<div id="loginOverlay">
+  <div class="login-box">
+    <div class="login-logo">📋 DPR — Man Power Report</div>
+    <div class="login-sub">Trust Project Department<br>Please sign in to continue</div>
+    <label style="text-align:left;">Username</label>
+    <input type="text" id="loginName" placeholder="Enter username" style="letter-spacing:0;" autocomplete="username">
+    <label style="text-align:left;">Password</label>
+    <input type="password" id="loginPass" placeholder="Enter password" onkeydown="if(event.key==='Enter')doLogin()" autocomplete="current-password">
+    <button class="btn-green" onclick="doLogin()" style="margin-top:4px;">Sign In →</button>
+    <div class="login-err" id="loginErr"></div>
+  </div>
+  <div style="text-align:center;">
+    <div style="color:rgba(255,255,255,0.55);font-size:11px;margin-bottom:8px;">— Quick Select —</div>
+    <div class="user-chips" id="userChips"></div>
+  </div>
+</div>
+
+<!-- ══ HEADER ══ -->
 <div class="header-wrap">
-  <div class="logo">📋 MAN POWER REPORT</div>
-  <div class="sub">Trust Project Department — Daily Progress Report</div>
+  <div>
+    <div class="logo">📋 MAN POWER REPORT</div>
+    <div class="sub">Trust Project Department</div>
+  </div>
+  <div class="header-right">
+    <div class="header-user" id="headerUser"></div>
+    <button class="btn-signout" onclick="doLogout()">Sign Out</button>
+  </div>
 </div>
 
-<!-- DATE & SITE -->
-<div class="card">
-  <label>Date</label>
-  <input type="date" id="date">
-  <label>Site</label>
-  <select id="site">
-    <option>Amba School</option>
-    <option>Adalaj Mandir Podium Work</option>
-    <option>ABP 540 Office</option>
-    <option>Baheno Gurukul</option>
-    <option>UGWT-Old Vatsalya</option>
-    <option>Compound Wall-Raj Marg</option>
-  </select>
+<div id="offlineBadge">⚠️ Offline Mode — Data saved locally, will sync on reconnect</div>
+
+<!-- ══ TABS ══ -->
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="switchTab('Form',this)">📝 New DPR</button>
+  <button class="tab-btn" onclick="switchTab('History',this)">📂 History</button>
+  <button class="tab-btn" onclick="switchTab('Dashboard',this)">📊 Dashboard</button>
+  <button class="tab-btn" id="adminTabBtn" onclick="switchTab('Admin',this)" style="display:none;">⚙️ Admin</button>
 </div>
 
-<!-- CIVIL SECTION -->
-<div class="card">
-  <div class="section-title">🏗️ Civil Work</div>
-  <div id="civilContainer"></div>
-  <button class="btn-add" onclick="addActivity('civilContainer','civil')">+ Add Civil Activity</button>
+<!-- ══════ TAB: NEW DPR ══════ -->
+<div class="tab-page active" id="tabForm">
+
+  <div class="card">
+    <label>Date</label>
+    <input type="date" id="date">
+    <label>Site</label>
+    <select id="site">
+      <option>Amba School</option>
+      <option>Adalaj Mandir Podium Work</option>
+      <option>ABP 540 Office</option>
+      <option>Baheno Gurukul</option>
+      <option>UGWT-Old Vatsalya</option>
+      <option>Compound Wall-Raj Marg</option>
+    </select>
+  </div>
+
+  <div class="card">
+    <div class="section-title">🏗️ Civil Work</div>
+    <div id="civilContainer"></div>
+    <button class="btn-add" onclick="addActivity('civilContainer','civil')">+ Add Civil Activity</button>
+  </div>
+
+  <div class="card">
+    <div class="section-title">🏢 Interior Work</div>
+    <div id="interiorContainer"></div>
+    <button class="btn-add" onclick="addActivity('interiorContainer','interior')">+ Add Interior Activity</button>
+  </div>
+
+  <div class="card">
+    <div class="section-title">✏️ Supervisor Details</div>
+    <label>Supervisor Name</label>
+    <input type="text" id="supervisorName" placeholder="e.g. Ramesh Patel">
+    <label>Designation</label>
+    <input type="text" id="supervisorDesig" placeholder="e.g. Site Engineer">
+    <label>Remarks <span style="text-transform:none;font-weight:400;">(Optional)</span></label>
+    <textarea id="supervisorRemarks" placeholder="Any special observation or note..."></textarea>
+    <label>Signature <span style="text-transform:none;font-weight:400;">(Draw below)</span></label>
+    <div class="sig-wrap"><canvas id="sigCanvas"></canvas></div>
+    <button class="btn-gray btn-sm" onclick="clearSig()">🗑️ Clear Signature</button>
+  </div>
+
+  <button class="btn-green" onclick="generate()">✅ Generate DPR</button>
+  <div class="btn-group">
+    <button class="btn-blue" onclick="downloadImage()">📷 Download Image</button>
+    <button class="btn-blue" onclick="downloadPDF()">📄 Download PDF</button>
+  </div>
+  <button class="btn-wa" onclick="copyWhats()">💬 Copy for WhatsApp</button>
+
+  <div id="report">
+    <h3>DPR — MAN POWER REPORT</h3>
+    <div class="report-meta" id="rdate"></div>
+    <div id="rcivil"></div>
+    <div id="rmanpower"></div>
+    <div id="rsupervisor"></div>
+  </div>
 </div>
 
-<!-- INTERIOR SECTION -->
-<div class="card">
-  <div class="section-title">🏢 Interior Work</div>
-  <div id="interiorContainer"></div>
-  <button class="btn-add" onclick="addActivity('interiorContainer','interior')">+ Add Interior Activity</button>
+<!-- ══════ TAB: HISTORY ══════ -->
+<div class="tab-page" id="tabHistory">
+  <div class="card">
+    <div class="section-title">📂 DPR History</div>
+    <label>Filter by Date</label>
+    <input type="date" id="searchDate" onchange="renderHistory()">
+    <label>Search by Site</label>
+    <input type="text" id="searchSite" placeholder="Type site name..." oninput="renderHistory()">
+    <button class="btn-blue btn-sm" onclick="loadHistory()" style="margin-bottom:10px;">🔄 Refresh</button>
+    <div id="historyList"><p style="color:#aaa;text-align:center;padding:12px;">⏳ Loading records...</p></div>
+  </div>
 </div>
 
-<!-- ACTION BUTTONS -->
-<button class="btn-green" onclick="generate()">✅ Generate DPR</button>
-<div class="btn-group">
-  <button class="btn-blue" onclick="downloadImage()">📷 Download Image</button>
-  <button class="btn-blue" onclick="downloadPDF()">📄 Download PDF</button>
-</div>
-<button class="btn-wa" onclick="copyWhats()">💬 Copy for WhatsApp</button>
-
-<!-- HISTORY -->
-<div class="card" style="margin-top:14px;">
-  <div class="section-title">📂 DPR History</div>
-  <label>Filter by Date</label>
-  <input type="date" id="searchDate" onchange="renderHistory()">
-  <label>Search by Site</label>
-  <input type="text" id="searchSite" placeholder="Type site name..." oninput="renderHistory()">
-  <div id="historyList"></div>
-</div>
-
-<!-- GENERATED REPORT -->
-<div id="report">
-  <h3>DPR — MAN POWER REPORT</h3>
-  <div class="report-site" id="rdate"></div>
-  <div id="rcivil"></div>
-  <div id="rmanpower"></div>
+<!-- ══════ TAB: DASHBOARD ══════ -->
+<div class="tab-page" id="tabDashboard">
+  <div class="card">
+    <div class="section-title">📊 Summary Dashboard</div>
+    <div class="period-tabs">
+      <button class="period-tab active" onclick="setPeriod('week',this)">This Week</button>
+      <button class="period-tab" onclick="setPeriod('month',this)">This Month</button>
+      <button class="period-tab" onclick="setPeriod('all',this)">All Time</button>
+    </div>
+    <div class="dash-grid">
+      <div class="dash-stat"><div class="num" id="dTotalWorkers">—</div><div class="lbl">Total Workers</div></div>
+      <div class="dash-stat"><div class="num" id="dTotalDPR">—</div><div class="lbl">Total DPRs</div></div>
+      <div class="dash-stat"><div class="num" id="dAvgWorkers">—</div><div class="lbl">Avg / Day</div></div>
+      <div class="dash-stat"><div class="num" id="dActiveSites">—</div><div class="lbl">Active Sites</div></div>
+    </div>
+    <div class="section-title" style="margin-top:2px;">📍 Site-wise Manpower</div>
+    <div id="siteBreakdown"><p style="color:#aaa;font-size:13px;">Load history first</p></div>
+  </div>
 </div>
 
-<!-- TOAST -->
-<div id="toast"></div>
+<!-- ══════ TAB: ADMIN PANEL ══════ -->
+<div class="tab-page" id="tabAdmin">
+  <div class="card">
+    <div class="section-title">⚙️ User Management</div>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:14px;">Create and manage user accounts. Only TPD-Admin can access this panel.</p>
 
-<footer>© 2026 Trust Project Department &nbsp;|&nbsp; Version <span id="version">—</span></footer>
-
-<script>
-/* ══════════════════════════════════════════
-   CIVIL & INTERIOR ACTIVITY OPTIONS
-══════════════════════════════════════════ */
-const CIVIL_OPTIONS = [
-  "RCC Work","Brick Work","Plaster","Waterproofing Work",
-  "Tile Flooring","Marble Flooring","Epoxy Grouting","Plumbing","Misc. Work"
-];
-
-const INTERIOR_OPTIONS = [
-  "Furniture Work","Modular Furniture Work","HVAC Work","Electrical Work",
-  "IT Work","Aluminium Work","CCTV Work","Paint Work","Lift Work",
-  "Fabrication Work","Cleaning Work","Misc. Work"
-];
-
-/* ══════════════════════════════════════════
-   INIT
-══════════════════════════════════════════ */
-window.onload = function(){
-  document.getElementById('date').value = new Date().toISOString().split('T')[0];
-  addActivity('civilContainer','civil');
-  addActivity('interiorContainer','interior');
-  loadHistory();
-  loadVersion();
-};
-
-/* ══════════════════════════════════════════
-   ADD ACTIVITY — only unused options in new dropdown
-   When a dropdown changes or a row is deleted,
-   refresh all dropdowns in that container.
-══════════════════════════════════════════ */
-function addActivity(containerId, type){
-  const allOptions = type === 'civil' ? CIVIL_OPTIONS : INTERIOR_OPTIONS;
-  const container  = document.getElementById(containerId);
-
-  // Which activities are already selected in this container?
-  const usedNow = getUsedActivities(containerId);
-
-  // Available = all minus already-used (always keep "Misc. Work" available)
-  const available = allOptions.filter(o => !usedNow.includes(o) || o === 'Misc. Work');
-
-  if(available.length === 0){
-    showToast('⚠️ Saari activities already add ho gayi hain!');
-    return;
-  }
-
-  const optionsHTML = available.map(o => `<option value="${o}">${o}</option>`).join('');
-
-  const div = document.createElement('div');
-  div.className = 'activitybox';
-  div.dataset.type = type;  // store type for refresh
-  div.innerHTML = `
-    <label>Activity</label>
-    <select class="activity" onchange="refreshDropdowns('${containerId}','${type}')">${optionsHTML}</select>
-
-    <div class="row2">
-      <div>
-        <label>Skilled</label>
-        <input type="number" class="skill" value="0" min="0">
-      </div>
-      <div>
-        <label>Unskilled</label>
-        <input type="number" class="unskill" value="0" min="0">
-      </div>
+    <!-- Add New User -->
+    <div style="background:#f8fafc;border:1.5px solid var(--border);border-radius:8px;padding:14px;margin-bottom:16px;">
+      <div style="font-weight:700;font-size:14px;color:var(--primary);margin-bottom:10px;">➕ Create New User</div>
+      <label>Username</label>
+      <input type="text" id="newUsername" placeholder="e.g. site-manager-01">
+      <label>Display Name</label>
+      <input type="text" id="newDisplayName" placeholder="e.g. Ramesh Patel">
+      <label>Password</label>
+      <input type="text" id="newPassword" placeholder="Set a password">
+      <label>Role</label>
+      <select id="newRole">
+        <option value="user">User — Can create & view DPRs</option>
+        <option value="admin">Admin — Full access + User Management</option>
+      </select>
+      <button class="btn-green" onclick="createUser()">✅ Create User</button>
     </div>
 
-    <label style="margin-top:8px;">Note (Optional)</label>
-    <input type="text" class="desc" placeholder="Work location or note...">
+    <!-- User List -->
+    <div style="font-weight:700;font-size:14px;color:var(--primary);margin-bottom:10px;">👥 All Users</div>
+    <div id="adminUserList"></div>
+  </div>
+</div>
 
-    <button class="delete-btn" onclick="removeActivity(this,'${containerId}','${type}')">🗑️ Delete</button>
-  `;
-  container.appendChild(div);
+<div id="toast"></div>
+<footer>© 2026 Trust Project Department &nbsp;|&nbsp; v<span id="version">—</span></footer>
 
-  // After adding, refresh all OTHER dropdowns so they hide this new selection
-  refreshDropdowns(containerId, type);
+<script>
+/* ══════════════════════════════════════════════
+   SHEET URL — Replace with your new Web App URL
+══════════════════════════════════════════════ */
+const SHEET_URL = "https://script.google.com/macros/s/AKfycbxbFqkXgtAiQpCRJVH4gT6-L72vXqpvI0UqUYmbJJ_e7vQyXJ0gXBLENYht6_Ak2QYaDw/exec";
+
+/* ══════════════════════════════════════════════
+   DEFAULT USERS — stored in localStorage
+   TPD-admin is hardcoded & cannot be deleted
+══════════════════════════════════════════════ */
+const SUPER_ADMIN = { username:"TPD-admin", displayName:"TPD Admin", password:"tpd@2026", role:"admin" };
+
+function getUsers(){
+  const stored = localStorage.getItem('dprUsers');
+  const extra  = stored ? JSON.parse(stored) : [];
+  return [SUPER_ADMIN, ...extra];
+}
+function saveUsers(list){
+  // Never save super admin in list (it's hardcoded)
+  const filtered = list.filter(u => u.username !== SUPER_ADMIN.username);
+  localStorage.setItem('dprUsers', JSON.stringify(filtered));
 }
 
-/* Returns array of currently selected activity values in a container */
-function getUsedActivities(containerId){
-  const selects = document.querySelectorAll(`#${containerId} .activity`);
-  return Array.from(selects).map(s => s.value);
-}
+const CIVIL_OPTIONS    = ["RCC Work","Brick Work","Plaster","Waterproofing Work","Tile Flooring","Marble Flooring","Epoxy Grouting","Plumbing","Misc. Work"];
+const INTERIOR_OPTIONS = ["Furniture Work","Modular Furniture Work","HVAC Work","Electrical Work","IT Work","Aluminium Work","CCTV Work","Paint Work","Lift Work","Fabrication Work","Cleaning Work","Misc. Work"];
 
-/* Remove a row, then refresh dropdowns */
-function removeActivity(btn, containerId, type){
-  btn.closest('.activitybox').remove();
-  refreshDropdowns(containerId, type);
-}
+let _historyCache = [];
+let _currentUser  = null;
+let _dashPeriod   = 'week';
 
-/* Rebuild options in every dropdown of the container,
-   keeping each row's current selection intact          */
-function refreshDropdowns(containerId, type){
-  const allOptions = type === 'civil' ? CIVIL_OPTIONS : INTERIOR_OPTIONS;
-  const container  = document.getElementById(containerId);
-  const selects    = container.querySelectorAll('.activity');
+/* ══ INIT ══ */
+window.onload = function(){
+  renderLoginChips();
 
-  // Snapshot current selections before rebuilding
-  const currentVals = Array.from(selects).map(s => s.value);
+  try{
+    const s = sessionStorage.getItem('dprUser');
+    if(s){ _currentUser = JSON.parse(s); showApp(); }
+  }catch(e){}
 
-  selects.forEach((sel, idx) => {
-    const myVal = currentVals[idx];
-    // "used by others" = all selected values except my own
-    const usedByOthers = currentVals.filter((_, i) => i !== idx);
+  document.getElementById('date').value = new Date().toISOString().split('T')[0];
+  setupSignature();
+  loadVersion();
 
-    // Show: my own value + anything not used by others (Misc. Work always shown)
-    const visible = allOptions.filter(o =>
-      o === myVal || o === 'Misc. Work' || !usedByOthers.includes(o)
-    );
+  window.addEventListener('offline', ()=>{ document.getElementById('offlineBadge').style.display='block'; });
+  window.addEventListener('online',  ()=>{ document.getElementById('offlineBadge').style.display='none'; syncOfflineQueue(); });
+  if(!navigator.onLine) document.getElementById('offlineBadge').style.display='block';
+};
 
-    sel.innerHTML = visible.map(o =>
-      `<option value="${o}" ${o === myVal ? 'selected' : ''}>${o}</option>`
-    ).join('');
+/* ══ LOGIN CHIPS ══ */
+function renderLoginChips(){
+  const wrap = document.getElementById('userChips');
+  wrap.innerHTML = '';
+  getUsers().forEach(u => {
+    const c = document.createElement('div');
+    c.className = 'user-chip';
+    c.textContent = u.username;
+    c.onclick = () => { document.getElementById('loginName').value = u.username; document.getElementById('loginPass').focus(); };
+    wrap.appendChild(c);
   });
 }
 
-/* ══════════════════════════════════════════
-   BUILD ACTIVITY ROWS FOR REPORT
-══════════════════════════════════════════ */
-function buildActivities(containerId){
-  const container = document.getElementById(containerId);
-  const acts   = container.querySelectorAll('.activity');
-  const skills = container.querySelectorAll('.skill');
-  const unsks  = container.querySelectorAll('.unskill');
-  const descs  = container.querySelectorAll('.desc');
-
-  let html = '', subtotal = 0;
-
-  for(let i = 0; i < acts.length; i++){
-    const sk = Math.max(0, Number(skills[i].value));
-    const un = Math.max(0, Number(unsks[i].value));
-    const desc = descs[i].value.trim();
-    subtotal += sk + un;
-
-    html += `
-      <div class="report-activity">
-        <u>${acts[i].value.trim()}</u><br>
-        Skilled : <b>${sk}</b> &nbsp;|&nbsp; Unskilled : <b>${un}</b>
-        ${desc ? `<br><i style="color:#555;font-size:13px;">📌 ${desc}</i>` : ''}
-      </div>`;
+/* ══ LOGIN ══ */
+function doLogin(){
+  const uname = document.getElementById('loginName').value.trim();
+  const pass  = document.getElementById('loginPass').value;
+  const user  = getUsers().find(u => u.username.toLowerCase() === uname.toLowerCase() && u.password === pass);
+  if(!user){
+    document.getElementById('loginErr').textContent = '❌ Invalid username or password.';
+    document.getElementById('loginPass').value = '';
+    return;
   }
-  return { html, subtotal };
+  _currentUser = user;
+  sessionStorage.setItem('dprUser', JSON.stringify(user));
+  showApp();
 }
 
-/* ══════════════════════════════════════════
-   GENERATE DPR
-══════════════════════════════════════════ */
+function doLogout(){
+  sessionStorage.removeItem('dprUser');
+  _currentUser = null;
+  document.getElementById('loginOverlay').style.display = 'flex';
+  document.getElementById('loginPass').value = '';
+  document.getElementById('loginErr').textContent = '';
+  document.getElementById('loginName').value = '';
+  renderLoginChips();
+}
+
+function showApp(){
+  document.getElementById('loginOverlay').style.display = 'none';
+  document.getElementById('headerUser').textContent = '👤 ' + _currentUser.username + (_currentUser.role==='admin' ? ' · Admin' : '');
+  document.getElementById('supervisorName').value = _currentUser.displayName || _currentUser.username;
+
+  // Show Admin tab only for admins
+  document.getElementById('adminTabBtn').style.display = _currentUser.role==='admin' ? 'block' : 'none';
+
+  if(!document.getElementById('civilContainer').children.length)    addActivity('civilContainer','civil');
+  if(!document.getElementById('interiorContainer').children.length) addActivity('interiorContainer','interior');
+
+  loadHistory();
+}
+
+/* ══ TABS ══ */
+function switchTab(tab, btn){
+  document.querySelectorAll('.tab-page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab'+tab).classList.add('active');
+  if(btn) btn.classList.add('active');
+  if(tab==='Dashboard') renderDashboard();
+  if(tab==='History')   renderHistory();
+  if(tab==='Admin')     renderAdminUsers();
+}
+
+/* ══ ADMIN — USER MANAGEMENT ══ */
+function createUser(){
+  const username    = document.getElementById('newUsername').value.trim();
+  const displayName = document.getElementById('newDisplayName').value.trim();
+  const password    = document.getElementById('newPassword').value.trim();
+  const role        = document.getElementById('newRole').value;
+
+  if(!username || !password){ showToast('⚠️ Username and Password are required'); return; }
+  if(!/^[a-zA-Z0-9_\-]+$/.test(username)){ showToast('⚠️ Username: only letters, numbers, - and _'); return; }
+
+  const users = getUsers();
+  if(users.find(u => u.username.toLowerCase() === username.toLowerCase())){
+    showToast('⚠️ Username already exists'); return;
+  }
+
+  const extra = JSON.parse(localStorage.getItem('dprUsers')||'[]');
+  extra.push({ username, displayName: displayName||username, password, role });
+  localStorage.setItem('dprUsers', JSON.stringify(extra));
+
+  document.getElementById('newUsername').value    = '';
+  document.getElementById('newDisplayName').value = '';
+  document.getElementById('newPassword').value    = '';
+
+  renderAdminUsers();
+  renderLoginChips();
+  showToast('✅ User "' + username + '" created successfully!');
+}
+
+function deleteUser(username){
+  if(username === SUPER_ADMIN.username){ showToast('❌ TPD-admin cannot be deleted'); return; }
+  if(!confirm(`Delete user "${username}"?`)) return;
+  const extra = JSON.parse(localStorage.getItem('dprUsers')||'[]');
+  localStorage.setItem('dprUsers', JSON.stringify(extra.filter(u=>u.username!==username)));
+  renderAdminUsers();
+  renderLoginChips();
+  showToast('🗑️ User deleted');
+}
+
+function resetPassword(username){
+  const newPass = prompt(`Set new password for "${username}":`);
+  if(!newPass || !newPass.trim()) return;
+  const extra = JSON.parse(localStorage.getItem('dprUsers')||'[]');
+  const idx   = extra.findIndex(u=>u.username===username);
+  if(idx===-1){ showToast('User not found'); return; }
+  extra[idx].password = newPass.trim();
+  localStorage.setItem('dprUsers', JSON.stringify(extra));
+  showToast('✅ Password updated for "' + username + '"');
+}
+
+function renderAdminUsers(){
+  const users = getUsers();
+  document.getElementById('adminUserList').innerHTML = users.map(u => {
+    const isSuper = u.username === SUPER_ADMIN.username;
+    return `
+      <div class="admin-user-row">
+        <div>
+          <div class="admin-user-info">👤 ${u.username}</div>
+          <div class="admin-user-sub">${u.displayName||''} &nbsp;·&nbsp; <b>${u.role==='admin'?'Admin':'User'}</b></div>
+        </div>
+        <div style="display:flex;gap:6px;">
+          ${!isSuper ? `<button class="btn-gray btn-sm" style="width:auto;padding:5px 10px;font-size:11px;" onclick="resetPassword('${u.username}')">🔑 Reset</button>` : ''}
+          ${!isSuper ? `<button class="btn-red btn-sm" style="width:auto;padding:5px 10px;font-size:11px;" onclick="deleteUser('${u.username}')">🗑️</button>` : '<span style="font-size:11px;color:var(--muted);padding:5px 0;">Protected</span>'}
+        </div>
+      </div>`;
+  }).join('');
+}
+
+/* ══ ACTIVITIES ══ */
+function addActivity(cid, type){
+  const all   = type==='civil' ? CIVIL_OPTIONS : INTERIOR_OPTIONS;
+  const used  = Array.from(document.querySelectorAll(`#${cid} .activity`)).map(s=>s.value);
+  const avail = all.filter(o => !used.includes(o) || o==='Misc. Work');
+  if(!avail.length){ showToast('⚠️ All activities have already been added'); return; }
+
+  const div = document.createElement('div');
+  div.className = 'activitybox';
+  div.innerHTML = `
+    <label>Activity</label>
+    <select class="activity" onchange="refreshDropdowns('${cid}','${type}')">
+      ${avail.map(o=>`<option value="${o}">${o}</option>`).join('')}
+    </select>
+    <div class="row2">
+      <div><label>Skilled</label><input type="number" class="skill" value="0" min="0"></div>
+      <div><label>Unskilled</label><input type="number" class="unskill" value="0" min="0"></div>
+    </div>
+    <label style="margin-top:8px;">Note <span style="text-transform:none;font-weight:400;">(Optional)</span></label>
+    <input type="text" class="desc" placeholder="Work location or note...">
+    <button class="delete-btn" onclick="removeActivity(this,'${cid}','${type}')">🗑️ Remove</button>
+  `;
+  document.getElementById(cid).appendChild(div);
+  refreshDropdowns(cid, type);
+}
+
+function removeActivity(btn, cid, type){
+  btn.closest('.activitybox').remove();
+  refreshDropdowns(cid, type);
+}
+
+function refreshDropdowns(cid, type){
+  const all  = type==='civil' ? CIVIL_OPTIONS : INTERIOR_OPTIONS;
+  const sels = document.querySelectorAll(`#${cid} .activity`);
+  const vals = Array.from(sels).map(s=>s.value);
+  sels.forEach((sel,i)=>{
+    const mine   = vals[i];
+    const others = vals.filter((_,j)=>j!==i);
+    const vis    = all.filter(o => o===mine || o==='Misc. Work' || !others.includes(o));
+    sel.innerHTML = vis.map(o=>`<option value="${o}" ${o===mine?'selected':''}>${o}</option>`).join('');
+  });
+}
+
+/* ══ SIGNATURE ══ */
+let sigDrawing=false, sigCtx, sigCanvas;
+function setupSignature(){
+  sigCanvas = document.getElementById('sigCanvas');
+  sigCtx    = sigCanvas.getContext('2d');
+  const dpr = window.devicePixelRatio||1;
+  sigCanvas.width  = (sigCanvas.offsetWidth||400)*dpr;
+  sigCanvas.height = 88*dpr;
+  sigCtx.scale(dpr,dpr);
+  sigCtx.strokeStyle='#1b3c74'; sigCtx.lineWidth=2.2; sigCtx.lineCap='round';
+  const pt = e => { const r=sigCanvas.getBoundingClientRect(); const s=e.touches?e.touches[0]:e; return{x:s.clientX-r.left,y:s.clientY-r.top}; };
+  sigCanvas.addEventListener('mousedown', e=>{sigDrawing=true;sigCtx.beginPath();const p=pt(e);sigCtx.moveTo(p.x,p.y);});
+  sigCanvas.addEventListener('mousemove', e=>{if(!sigDrawing)return;const p=pt(e);sigCtx.lineTo(p.x,p.y);sigCtx.stroke();});
+  sigCanvas.addEventListener('mouseup',   ()=>sigDrawing=false);
+  sigCanvas.addEventListener('mouseleave',()=>sigDrawing=false);
+  sigCanvas.addEventListener('touchstart',e=>{e.preventDefault();sigDrawing=true;sigCtx.beginPath();const p=pt(e);sigCtx.moveTo(p.x,p.y);},{passive:false});
+  sigCanvas.addEventListener('touchmove', e=>{e.preventDefault();if(!sigDrawing)return;const p=pt(e);sigCtx.lineTo(p.x,p.y);sigCtx.stroke();},{passive:false});
+  sigCanvas.addEventListener('touchend',  ()=>sigDrawing=false);
+}
+function clearSig(){ sigCtx.clearRect(0,0,sigCanvas.width,sigCanvas.height); }
+function isSigEmpty(){ return !sigCtx.getImageData(0,0,sigCanvas.width,sigCanvas.height).data.some(v=>v!==0); }
+
+/* ══ BUILD ACTIVITIES ══ */
+function buildActivities(cid){
+  const c=document.getElementById(cid);
+  const acts=c.querySelectorAll('.activity'), sks=c.querySelectorAll('.skill');
+  const uns=c.querySelectorAll('.unskill'),  dcs=c.querySelectorAll('.desc');
+  let html='', sub=0;
+  for(let i=0;i<acts.length;i++){
+    const sk=Math.max(0,Number(sks[i].value)), un=Math.max(0,Number(uns[i].value));
+    const dc=dcs[i].value.trim(); sub+=sk+un;
+    html+=`<div class="report-activity"><u>${acts[i].value.trim()}</u><br>Skilled : <b>${sk}</b> &nbsp;|&nbsp; Unskilled : <b>${un}</b>${dc?`<br><i style="color:#666;font-size:12px;">📌 ${dc}</i>`:''}</div>`;
+  }
+  return {html,subtotal:sub};
+}
+
+/* ══ BUILD ACTIVITIES — clean data for Sheet ══ */
+function buildActivitiesData(cid){
+  const c    = document.getElementById(cid);
+  const acts = c.querySelectorAll('.activity');
+  const sks  = c.querySelectorAll('.skill');
+  const uns  = c.querySelectorAll('.unskill');
+  const dcs  = c.querySelectorAll('.desc');
+  const rows = [];
+  for(let i=0;i<acts.length;i++){
+    const sk = Math.max(0,Number(sks[i].value));
+    const un = Math.max(0,Number(uns[i].value));
+    if(sk===0 && un===0) continue; // skip empty rows
+    rows.push({
+      activity: acts[i].value.trim(),
+      skilled:  sk,
+      unskilled:un,
+      note:     dcs[i].value.trim()
+    });
+  }
+  return rows;
+}
+
+/* ══ GENERATE ══ */
 function generate(){
+  if(!_currentUser){ showToast('⚠️ Please sign in first'); return; }
+  const dateVal = document.getElementById('date').value;
+  const siteVal = document.getElementById('site').value;
+  if(!dateVal){ showToast('⚠️ Please select a date'); return; }
+
   const civil    = buildActivities('civilContainer');
   const interior = buildActivities('interiorContainer');
   const total    = civil.subtotal + interior.subtotal;
+  const timeStr  = new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
 
-  const dateVal = document.getElementById('date').value;
-  const siteVal = document.getElementById('site').value;
+  // Prepared by / Edited by logic
+  const existing   = _historyCache.find(h => toYMD(h.date)===dateVal && h.site===siteVal);
+  const preparedBy = existing ? (existing.by || _currentUser.username) : _currentUser.username;
+  const editedBy   = (existing && existing.by !== _currentUser.username) ? _currentUser.username : null;
+
+  const supName  = document.getElementById('supervisorName').value.trim();
+  const supDesig = document.getElementById('supervisorDesig').value.trim();
+  const supRem   = document.getElementById('supervisorRemarks').value.trim();
+  const sigImg   = !isSigEmpty() ? `<br><img src="${sigCanvas.toDataURL()}" style="max-height:50px;margin-top:6px;border:1px solid #ddd;border-radius:4px;">` : '';
 
   document.getElementById('rdate').innerHTML =
-    `<b>📅 Date :</b> ${formatDate(dateVal)} &nbsp; | &nbsp; <b>📍 Site :</b> ${siteVal}`;
+    `<b>Date :</b> ${formatDate(dateVal)} &nbsp;|&nbsp; <b>Time :</b> ${timeStr}<br>
+     <b>Site :</b> ${siteVal}<br>
+     <b>Prepared by :</b> ${preparedBy}
+     ${editedBy ? ` &nbsp;|&nbsp; <b>Edited by :</b> ${editedBy}` : ''}`;
 
   document.getElementById('rcivil').innerHTML =
     `<div class="report-section-title">🏗️ Civil Work</div>${civil.html}
@@ -545,203 +610,201 @@ function generate(){
   document.getElementById('rmanpower').innerHTML =
     `<div class="report-total">👷 Total Manpower : ${total}</div>`;
 
+  document.getElementById('rsupervisor').innerHTML =
+    `<div class="report-supervisor">
+      <b>Supervisor :</b> ${supName||'—'}
+      ${supDesig?` &nbsp;|&nbsp; <b>Designation :</b> ${supDesig}`:''}
+      ${supRem?`<br><span style="color:#555;">📝 ${supRem}</span>`:''}
+      ${sigImg}
+    </div>`;
+
   document.getElementById('report').style.display = 'block';
-  document.getElementById('report').scrollIntoView({ behavior:'smooth' });
+  document.getElementById('report').scrollIntoView({behavior:'smooth'});
 
-  saveHistory(); // Google Sheet pe save + history reload karega
-
-  showToast('✅ DPR Generated!');
+  saveToCloud(dateVal, siteVal, total, preparedBy, editedBy);
+  showToast('✅ DPR Generated Successfully!');
 }
 
-/* ══════════════════════════════════════════
-   FORMAT DATE (DD/MM/YYYY)
-══════════════════════════════════════════ */
-function formatDate(dateStr){
-  if(!dateStr) return dateStr;
-  const [y, m, d] = dateStr.split('-');
-  return `${d}/${m}/${y}`;
+/* ══ SAVE ══ */
+function saveToCloud(dateVal, siteVal, total, preparedBy, editedBy){
+  // Build clean structured activity data for Sheet (no HTML)
+  const civilData    = buildActivitiesData('civilContainer');
+  const interiorData = buildActivitiesData('interiorContainer');
+  const supName  = document.getElementById('supervisorName').value.trim();
+  const supDesig = document.getElementById('supervisorDesig').value.trim();
+
+  const payload = {
+    date: dateVal, site: siteVal, total: total,
+    report: document.getElementById('report').innerHTML,  // for history viewer
+    civilActivities:    JSON.stringify(civilData),
+    interiorActivities: JSON.stringify(interiorData),
+    supervisor: supName + (supDesig ? ' ('+supDesig+')' : ''),
+    by: preparedBy,
+    editedBy: editedBy || ''
+  };
+  if(!navigator.onLine){
+    let q=JSON.parse(localStorage.getItem('dprOfflineQ')||'[]');
+    q.push(payload); localStorage.setItem('dprOfflineQ',JSON.stringify(q));
+    showToast('📵 Offline — Saved locally, will sync on reconnect'); return;
+  }
+  showToast('☁️ Saving to cloud...');
+  fetch(SHEET_URL,{method:'POST',body:JSON.stringify(payload)})
+    .then(r=>r.json())
+    .then(()=>{ showToast('✅ Saved to cloud!'); loadHistory(); })
+    .catch(()=>showToast('⚠️ Save failed — check internet connection'));
 }
 
-/* ══════════════════════════════════════════
-   DOWNLOAD IMAGE
-══════════════════════════════════════════ */
-function downloadImage(){
-  const rep = document.getElementById('report');
-  if(rep.style.display === 'none'){ showToast('⚠️ Pehle DPR Generate karein!'); return; }
-  html2canvas(rep, { scale:2 }).then(canvas => {
-    const link = document.createElement('a');
-    link.download = `DPR_${document.getElementById('date').value}.png`;
-    link.href = canvas.toDataURL();
-    link.click();
-    showToast('📷 Image Downloaded!');
-  });
+function syncOfflineQueue(){
+  let q=JSON.parse(localStorage.getItem('dprOfflineQ')||'[]');
+  if(!q.length) return;
+  showToast(`🔄 Syncing ${q.length} pending DPR(s)...`);
+  Promise.all(q.map(p=>fetch(SHEET_URL,{method:'POST',body:JSON.stringify(p)})))
+    .then(()=>{ localStorage.removeItem('dprOfflineQ'); showToast('✅ All records synced!'); loadHistory(); })
+    .catch(()=>showToast('⚠️ Sync failed, will retry later'));
 }
 
-/* ══════════════════════════════════════════
-   DOWNLOAD PDF
-══════════════════════════════════════════ */
-function downloadPDF(){
-  const rep = document.getElementById('report');
-  if(rep.style.display === 'none'){ showToast('⚠️ Pehle DPR Generate karein!'); return; }
-  html2canvas(rep, { scale:2 }).then(canvas => {
-    const { jsPDF } = window.jspdf;
-    const pdf = new jsPDF('p','mm','a4');
-    const w = pdf.internal.pageSize.getWidth() - 20;
-    const h = canvas.height * w / canvas.width;
-    pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 10, 10, w, h);
-    pdf.save(`DPR_${document.getElementById('date').value}.pdf`);
-    showToast('📄 PDF Downloaded!');
-  });
-}
-
-/* ══════════════════════════════════════════
-   COPY FOR WHATSAPP
-══════════════════════════════════════════ */
-function copyWhats(){
-  const rep = document.getElementById('report');
-  if(rep.style.display === 'none'){ showToast('⚠️ Pehle DPR Generate karein!'); return; }
-  const text = rep.innerText.replace(/\n{3,}/g, '\n\n');
-  navigator.clipboard.writeText(text).then(() => {
-    showToast('💬 WhatsApp ke liye Copy ho gaya!');
-  }).catch(() => {
-    // Fallback for older browsers
-    const ta = document.createElement('textarea');
-    ta.value = text;
-    document.body.appendChild(ta);
-    ta.select();
-    document.execCommand('copy');
-    document.body.removeChild(ta);
-    showToast('💬 Copied!');
-  });
-}
-
-/* ══════════════════════════════════════════
-   GOOGLE SHEET — SHARED DATABASE
-   Sab users ka data ek jagah, sab ko dikhe
-══════════════════════════════════════════ */
-const SHEET_URL = "https://script.google.com/macros/s/AKfycbxbFqkXgtAiQpCRJVH4gT6-L72vXqpvI0UqUYmbJJ_e7vQyXJ0gXBLENYht6_Ak2QYaDw/exec";
-
-// In-memory cache of fetched history
-let _historyCache = [];
-
-/* SAVE to Google Sheet (POST) */
-function saveHistory(){
-  const dateVal    = document.getElementById('date').value;
-  const siteVal    = document.getElementById('site').value;
-  const reportHTML = document.getElementById('report').innerHTML;
-  const reportTxt  = document.getElementById('report').innerText;
-
-  const match = reportTxt.match(/Total Manpower\s*:\s*(\d+)/);
-  const total = match ? parseInt(match[1]) : 0;
-
-  showToast('☁️ Cloud mein save ho raha hai...');
-
-  fetch(SHEET_URL, {
-    method: "POST",
-    body: JSON.stringify({ date: dateVal, site: siteVal, report: reportHTML, total: total })
-  })
-  .then(res => res.json())
-  .then(() => {
-    showToast('✅ Cloud mein save ho gaya!');
-    loadHistory();
-  })
-  .catch(err => {
-    console.error("Sheet Error:", err);
-    showToast('⚠️ Save failed — internet check karein');
-  });
-}
-
-/* LOAD history from Google Sheet (GET) — all users ka shared data */
+/* ══ LOAD HISTORY ══ */
 function loadHistory(){
-  const hl = document.getElementById('historyList');
-  hl.innerHTML = `<p style="color:#aaa;text-align:center;padding:12px;">⏳ Loading...</p>`;
-
+  document.getElementById('historyList').innerHTML='<p style="color:#aaa;text-align:center;padding:12px;">⏳ Loading records...</p>';
   fetch(SHEET_URL)
-    .then(res => res.json())
-    .then(data => {
-      _historyCache = Array.isArray(data) ? data : [];
-      renderHistory();
-    })
-    .catch(() => {
-      hl.innerHTML = `<p style="color:#e57373;text-align:center;padding:10px;">⚠️ History load nahi hui — internet check karein</p>`;
-    });
+    .then(r=>r.json())
+    .then(d=>{ _historyCache=Array.isArray(d)?d:[]; renderHistory(); renderDashboard(); })
+    .catch(()=>{ document.getElementById('historyList').innerHTML='<p style="color:#e57373;text-align:center;padding:10px;">⚠️ Failed to load — check internet connection</p>'; });
 }
 
-/* RENDER filtered history */
+/* ══ RENDER HISTORY ══ */
 function renderHistory(){
   const sDate = document.getElementById('searchDate').value;
   const sSite = document.getElementById('searchSite').value.toLowerCase().trim();
-
-  const filtered = _historyCache.filter(item => {
-    const itemDate = typeof item.date === 'number'
-      ? formatExcelDate(item.date) : String(item.date);
-    if(sDate && itemDate !== sDate) return false;
+  const filtered = _historyCache.filter(item=>{
+    if(sDate && toYMD(item.date)!==sDate) return false;
     if(sSite && !String(item.site).toLowerCase().includes(sSite)) return false;
     return true;
   });
-
-  const hl = document.getElementById('historyList');
-
-  if(filtered.length === 0){
-    hl.innerHTML = `<p style="color:#aaa;text-align:center;padding:12px;">No DPR Found</p>`;
-    return;
+  if(!filtered.length){
+    document.getElementById('historyList').innerHTML='<p style="color:#aaa;text-align:center;padding:12px;">No records found</p>'; return;
   }
-
-  hl.innerHTML = filtered.map(item => {
-    const realIdx = _historyCache.indexOf(item);
-    const itemDate = typeof item.date === 'number'
-      ? formatExcelDate(item.date) : String(item.date);
+  document.getElementById('historyList').innerHTML = filtered.map(item=>{
+    const ri  = _historyCache.indexOf(item);
+    const d   = toYMD(item.date);
+    const byLine = item.by
+      ? (item.editedBy && item.editedBy!==item.by
+          ? `Prepared by: <b>${item.by}</b> &nbsp;·&nbsp; Edited by: <b>${item.editedBy}</b>`
+          : `by <b>${item.by}</b>`)
+      : '';
+    const delBtn = (_currentUser && _currentUser.role==='admin')
+      ? `<button class="btn-red btn-sm" onclick="deleteDPR(${ri})" style="width:auto;padding:6px 10px;">🗑️</button>` : '';
     return `
       <div class="history-item">
-        <div class="history-meta">📅 ${formatDate(itemDate)}</div>
-        <div class="history-site">📍 ${item.site}</div>
-        <div style="font-size:12px;color:var(--muted);margin-top:2px;">👷 Total Workers: ${item.total}</div>
+        <div style="font-size:14px;font-weight:700;">📅 ${formatDate(d)} &nbsp;<span style="font-size:12px;font-weight:400;color:var(--muted);">${byLine}</span></div>
+        <div style="font-size:12px;color:var(--muted);margin-top:3px;">📍 ${item.site} &nbsp;·&nbsp; 👷 <b>${item.total}</b> workers</div>
         <div class="hbtn-group">
-          <button class="btn-blue" onclick="openDPR(${realIdx})">📂 Full Report</button>
+          <button class="btn-blue btn-sm" onclick="openDPR(${ri})">📂 View Report</button>
+          ${delBtn}
         </div>
       </div>`;
   }).join('');
 }
 
-/* OPEN DPR from cache */
-function openDPR(index){
-  const item = _historyCache[index];
-  if(!item) return;
-  const rep = document.getElementById('report');
-  rep.style.display = 'block';
-  rep.innerHTML = item.report || '<p>Report detail available nahi hai</p>';
-  rep.scrollIntoView({ behavior:'smooth' });
+function openDPR(i){
+  const item=_historyCache[i]; if(!item) return;
+  document.getElementById('report').style.display='block';
+  document.getElementById('report').innerHTML=item.report||'<p style="color:#aaa;">Report detail not available</p>';
+  switchTab('Form', document.querySelector('.tab-btn'));
+  setTimeout(()=>document.getElementById('report').scrollIntoView({behavior:'smooth'}),120);
 }
 
-/* Excel serial date number → YYYY-MM-DD */
-function formatExcelDate(serial){
-  const d = new Date(Math.round((serial - 25569) * 86400 * 1000));
-  const y = d.getUTCFullYear();
-  const m = String(d.getUTCMonth()+1).padStart(2,'0');
-  const day = String(d.getUTCDate()).padStart(2,'0');
-  return `${y}-${m}-${day}`;
+function deleteDPR(i){
+  if(!_currentUser||_currentUser.role!=='admin'){ showToast('❌ Only Admin can delete records'); return; }
+  if(!confirm('Delete this DPR record?')) return;
+  const item=_historyCache[i];
+  fetch(SHEET_URL,{method:'POST',body:JSON.stringify({action:'delete',id:item.id})})
+    .then(()=>{ showToast('🗑️ Deleted!'); loadHistory(); })
+    .catch(()=>showToast('⚠️ Delete failed'));
 }
 
-/* ══════════════════════════════════════════
-   TOAST NOTIFICATION
-══════════════════════════════════════════ */
-function showToast(msg){
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2500);
+/* ══ DASHBOARD ══ */
+function setPeriod(p,btn){
+  _dashPeriod=p;
+  document.querySelectorAll('.period-tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active'); renderDashboard();
+}
+function renderDashboard(){
+  if(!_historyCache.length) return;
+  const now=new Date();
+  const filtered=_historyCache.filter(item=>{
+    const d=new Date(toYMD(item.date));
+    if(_dashPeriod==='week'){ const day=now.getDay()||7; const mon=new Date(now); mon.setDate(now.getDate()-day+1); mon.setHours(0,0,0,0); return d>=mon; }
+    if(_dashPeriod==='month') return d.getMonth()===now.getMonth()&&d.getFullYear()===now.getFullYear();
+    return true;
+  });
+  const totalW=filtered.reduce((a,i)=>a+Number(i.total||0),0);
+  const totalD=filtered.length;
+  document.getElementById('dTotalWorkers').textContent = totalW;
+  document.getElementById('dTotalDPR').textContent     = totalD;
+  document.getElementById('dAvgWorkers').textContent   = totalD?Math.round(totalW/totalD):0;
+  document.getElementById('dActiveSites').textContent  = [...new Set(filtered.map(i=>i.site))].length;
+
+  const siteMap={};
+  filtered.forEach(i=>{ siteMap[i.site]=(siteMap[i.site]||0)+Number(i.total||0); });
+  const maxW=Math.max(...Object.values(siteMap),1);
+  document.getElementById('siteBreakdown').innerHTML=
+    Object.entries(siteMap).sort((a,b)=>b[1]-a[1]).map(([site,w])=>`
+      <div class="site-row">
+        <div style="font-size:13px;font-weight:600;min-width:0;flex:0 0 auto;max-width:55%;">📍 ${site}</div>
+        <div class="bar-wrap"><div class="bar-fill" style="width:${Math.round(w/maxW*100)}%"></div></div>
+        <div class="site-total">${w}</div>
+      </div>`).join('');
 }
 
-/* ══════════════════════════════════════════
-   VERSION FROM GITHUB
-══════════════════════════════════════════ */
-function loadVersion(){
-  fetch("https://api.github.com/repos/dhavalkandoliya/DPR-Manpower/releases/latest")
-    .then(r => r.json())
-    .then(d => { document.getElementById('version').textContent = d.tag_name || '—'; })
-    .catch(() => { document.getElementById('version').textContent = 'N/A'; });
+/* ══ DOWNLOADS ══ */
+function downloadImage(){
+  const rep=document.getElementById('report');
+  if(rep.style.display==='none'){showToast('⚠️ Please generate a DPR first');return;}
+  html2canvas(rep,{scale:2}).then(c=>{
+    const a=document.createElement('a'); a.download=`DPR_${document.getElementById('date').value}.png`; a.href=c.toDataURL(); a.click();
+    showToast('📷 Image downloaded!');
+  });
 }
+function downloadPDF(){
+  const rep=document.getElementById('report');
+  if(rep.style.display==='none'){showToast('⚠️ Please generate a DPR first');return;}
+  html2canvas(rep,{scale:2}).then(c=>{
+    const {jsPDF}=window.jspdf;
+    const pdf=new jsPDF('p','mm','a4');
+    const w=pdf.internal.pageSize.getWidth()-20;
+    pdf.addImage(c.toDataURL('image/png'),'PNG',10,10,w,c.height*w/c.width);
+    pdf.save(`DPR_${document.getElementById('date').value}.pdf`);
+    showToast('📄 PDF downloaded!');
+  });
+}
+function copyWhats(){
+  const rep=document.getElementById('report');
+  if(rep.style.display==='none'){showToast('⚠️ Please generate a DPR first');return;}
+  const text=rep.innerText.replace(/\n{3,}/g,'\n\n');
+  navigator.clipboard.writeText(text).then(()=>showToast('💬 Copied for WhatsApp!')).catch(()=>{
+    const ta=document.createElement('textarea'); ta.value=text; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
+    showToast('💬 Copied!');
+  });
+}
+
+/* ══ HELPERS ══ */
+function formatDate(s){
+  if(!s) return '';
+  if(typeof s==='number') return formatDate(excelToStr(s));
+  const p=String(s).split('-'); if(p.length!==3) return s;
+  return `${p[2]}/${p[1]}/${p[0]}`;
+}
+function excelToStr(n){ const d=new Date(Math.round((n-25569)*86400*1000)); return `${d.getUTCFullYear()}-${String(d.getUTCMonth()+1).padStart(2,'0')}-${String(d.getUTCDate()).padStart(2,'0')}`; }
+function toYMD(s){
+  if(typeof s==='number') return excelToStr(s);
+  const str = String(s).trim();
+  // ISO datetime like "2026-03-28T18:30:00.000Z" → strip to date part
+  if(str.includes('T')) return str.split('T')[0];
+  return str;
+}
+function showToast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2800); }
+function loadVersion(){ fetch("https://api.github.com/repos/dhavalkandoliya/DPR-Manpower/releases/latest").then(r=>r.json()).then(d=>document.getElementById('version').textContent=d.tag_name||'1.0').catch(()=>document.getElementById('version').textContent='1.0'); }
 </script>
-
 </body>
 </html>
