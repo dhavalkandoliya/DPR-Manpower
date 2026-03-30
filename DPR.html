@@ -52,25 +52,18 @@ body{ font-family:'Noto Sans',sans-serif; background:var(--bg); color:var(--text
 .tab-btn{ flex:1; padding:8px 2px; border:none; border-radius:7px; font-size:11px; font-weight:600; cursor:pointer; font-family:'Noto Sans',sans-serif; background:transparent; color:var(--muted); transition:all 0.2s; margin-top:0; }
 .tab-btn.active{ background:var(--primary); color:white; }
 
-/* ── CARD ── */
+/* ── CARD & FORM ── */
 .card{ background:var(--card); padding:16px; margin-bottom:12px; border-radius:var(--radius); box-shadow:var(--shadow); border:1px solid var(--border); }
 .section-title{ font-family:'Rajdhani',sans-serif; font-weight:700; font-size:17px; color:var(--primary); margin-bottom:12px; padding-bottom:8px; border-bottom:2px solid var(--primary-light); display:flex; align-items:center; gap:6px; }
-
-/* ── FORM ── */
 label{ font-weight:600; font-size:12px; color:var(--muted); display:block; margin-bottom:4px; text-transform:uppercase; letter-spacing:0.5px; }
 input,select,textarea{ width:100%; padding:9px 12px; margin-bottom:10px; border:1.5px solid var(--border); border-radius:8px; font-size:14px; font-family:'Noto Sans',sans-serif; background:#fafbfc; color:var(--text); transition:border-color 0.2s; appearance:none; -webkit-appearance:none; }
 input:focus,select:focus,textarea:focus{ outline:none; border-color:var(--primary); background:#fff; }
-textarea{ resize:vertical; min-height:58px; }
 
 /* ── ACTIVITY BOX ── */
 .activitybox{ border:1.5px solid var(--border); padding:12px; border-radius:8px; margin-bottom:10px; background:#f8fafc; }
 .activitybox .row2{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
 .activitybox .row2 input{ margin-bottom:0; }
 .delete-btn{ background:var(--red); color:white; border:none; border-radius:6px; padding:7px; font-size:13px; font-weight:600; cursor:pointer; margin-top:8px; width:100%; font-family:'Noto Sans',sans-serif; }
-
-/* ── SIGNATURE ── */
-.sig-wrap{ border:1.5px dashed var(--border); border-radius:8px; overflow:hidden; margin-bottom:8px; background:white; cursor:crosshair; }
-#sigCanvas{ display:block; width:100%; height:88px; }
 
 /* ── BUTTONS ── */
 button{ width:100%; padding:11px; border:none; border-radius:8px; margin-top:6px; font-size:14px; font-weight:600; cursor:pointer; font-family:'Noto Sans',sans-serif; letter-spacing:0.3px; transition:opacity 0.2s,transform 0.1s; }
@@ -92,23 +85,12 @@ button:hover{ opacity:0.88; }
 .report-activity{ margin-bottom:7px; padding:8px 10px; border-left:3px solid var(--accent); background:#fffbf5; border-radius:0 6px 6px 0; }
 .report-activity u{ font-weight:700; }
 .report-total{ margin-top:14px; padding:12px; background:#e8f5e9; border-radius:8px; font-weight:700; font-size:15px; text-align:center; color:var(--green); border:1.5px solid #a5d6a7; }
-.report-supervisor{ margin-top:12px; padding:11px; background:#f3f4f6; border-radius:8px; border:1px solid var(--border); font-size:13px; }
 .report-meta{ font-size:12px; color:var(--muted); line-height:1.8; margin-bottom:10px; }
 
-/* ── HISTORY ── */
+/* ── HISTORY & DASHBOARD ── */
 .history-item{ border:1.5px solid var(--border); padding:11px 12px; border-radius:8px; margin-bottom:8px; background:#fafbfc; }
 .hbtn-group{ display:flex; gap:8px; margin-top:8px; }
-.history-meta-line{ font-size:11px; color:var(--muted); margin-top:3px; line-height:1.7; }
-.badge{ display:inline-block; padding:2px 8px; border-radius:12px; font-size:10px; font-weight:700; margin-right:4px; }
-.badge-prep{ background:#e8edf5; color:var(--primary); }
-.badge-edit{ background:#fff3e0; color:#e65100; }
-
-/* ── ADMIN PANEL ── */
 .admin-user-row{ display:flex; align-items:center; justify-content:space-between; padding:9px 12px; border:1.5px solid var(--border); border-radius:8px; margin-bottom:7px; background:#fafbfc; }
-.admin-user-info{ font-size:13px; font-weight:600; }
-.admin-user-sub{ font-size:11px; color:var(--muted); margin-top:1px; }
-
-/* ── DASHBOARD ── */
 .dash-grid{ display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:16px; }
 .dash-stat{ background:var(--primary-light); border-radius:8px; padding:14px; text-align:center; border:1px solid var(--border); }
 .dash-stat .num{ font-family:'Rajdhani',sans-serif; font-size:30px; font-weight:700; color:var(--primary); }
@@ -128,12 +110,10 @@ button:hover{ opacity:0.88; }
 footer{ text-align:center; padding:16px 0; font-size:12px; color:var(--muted); }
 .tab-page{ display:none; }
 .tab-page.active{ display:block; }
-hr.light{ border:none; border-top:1px solid var(--border); margin:12px 0; }
 </style>
 </head>
 <body>
 
-<!-- ══ LOGIN ══ -->
 <div id="loginOverlay">
   <div class="login-box">
     <div class="login-logo">📋 DPR — Man Power Report</div>
@@ -151,7 +131,6 @@ hr.light{ border:none; border-top:1px solid var(--border); margin:12px 0; }
   </div>
 </div>
 
-<!-- ══ HEADER ══ -->
 <div class="header-wrap">
   <div>
     <div class="logo">📋 MAN POWER REPORT</div>
@@ -165,7 +144,6 @@ hr.light{ border:none; border-top:1px solid var(--border); margin:12px 0; }
 
 <div id="offlineBadge">⚠️ Offline Mode — Data saved locally, will sync on reconnect</div>
 
-<!-- ══ TABS ══ -->
 <div class="tab-bar">
   <button class="tab-btn active" onclick="switchTab('Form',this)">📝 New DPR</button>
   <button class="tab-btn" onclick="switchTab('History',this)">📂 History</button>
@@ -173,7 +151,6 @@ hr.light{ border:none; border-top:1px solid var(--border); margin:12px 0; }
   <button class="tab-btn" id="adminTabBtn" onclick="switchTab('Admin',this)" style="display:none;">⚙️ Admin</button>
 </div>
 
-<!-- ══════ TAB: NEW DPR ══════ -->
 <div class="tab-page active" id="tabForm">
 
   <div class="card">
@@ -202,19 +179,6 @@ hr.light{ border:none; border-top:1px solid var(--border); margin:12px 0; }
     <button class="btn-add" onclick="addActivity('interiorContainer','interior')">+ Add Interior Activity</button>
   </div>
 
-  <div class="card" id="supervisorCard" style="display:none;">
-    <div class="section-title">✏️ Supervisor Details</div>
-    <label>Supervisor Name</label>
-    <input type="text" id="supervisorName" placeholder="e.g. Ramesh Patel">
-    <label>Designation</label>
-    <input type="text" id="supervisorDesig" placeholder="e.g. Site Engineer">
-    <label>Remarks <span style="text-transform:none;font-weight:400;">(Optional)</span></label>
-    <textarea id="supervisorRemarks" placeholder="Any special observation or note..."></textarea>
-    <label>Signature <span style="text-transform:none;font-weight:400;">(Draw below)</span></label>
-    <div class="sig-wrap"><canvas id="sigCanvas"></canvas></div>
-    <button class="btn-gray btn-sm" onclick="clearSig()">🗑️ Clear Signature</button>
-  </div>
-
   <button class="btn-green" onclick="generate()">✅ Generate DPR</button>
   <div class="btn-group">
     <button class="btn-blue" onclick="downloadImage()">📷 Download Image</button>
@@ -227,11 +191,9 @@ hr.light{ border:none; border-top:1px solid var(--border); margin:12px 0; }
     <div class="report-meta" id="rdate"></div>
     <div id="rcivil"></div>
     <div id="rmanpower"></div>
-    <div id="rsupervisor"></div>
   </div>
 </div>
 
-<!-- ══════ TAB: HISTORY ══════ -->
 <div class="tab-page" id="tabHistory">
   <div class="card">
     <div class="section-title">📂 DPR History</div>
@@ -244,7 +206,6 @@ hr.light{ border:none; border-top:1px solid var(--border); margin:12px 0; }
   </div>
 </div>
 
-<!-- ══════ TAB: DASHBOARD ══════ -->
 <div class="tab-page" id="tabDashboard">
   <div class="card">
     <div class="section-title">📊 Summary Dashboard</div>
@@ -264,13 +225,11 @@ hr.light{ border:none; border-top:1px solid var(--border); margin:12px 0; }
   </div>
 </div>
 
-<!-- ══════ TAB: ADMIN PANEL ══════ -->
 <div class="tab-page" id="tabAdmin">
   <div class="card">
     <div class="section-title">⚙️ User Management</div>
     <p style="font-size:13px;color:var(--muted);margin-bottom:14px;">Create and manage user accounts. Only TPD-Admin can access this panel.</p>
 
-    <!-- Add New User -->
     <div style="background:#f8fafc;border:1.5px solid var(--border);border-radius:8px;padding:14px;margin-bottom:16px;">
       <div style="font-weight:700;font-size:14px;color:var(--primary);margin-bottom:10px;">➕ Create New User</div>
       <label>Username</label>
@@ -287,24 +246,22 @@ hr.light{ border:none; border-top:1px solid var(--border); margin:12px 0; }
       <button class="btn-green" onclick="createUser()">✅ Create User</button>
     </div>
 
-    <!-- User List -->
     <div style="font-weight:700;font-size:14px;color:var(--primary);margin-bottom:10px;">👥 All Users</div>
     <div id="adminUserList"></div>
   </div>
 </div>
 
 <div id="toast"></div>
-<footer>© 2026 Trust Project Department &nbsp;|&nbsp; v<span id="version">—</span></footer>
+<footer>© 2026 Trust Project Department &nbsp;|&nbsp; Simple Version</footer>
 
 <script>
 /* ══════════════════════════════════════════════
-   SHEET URL — Replace with your new Web App URL
+   SHEET URL — Ensure this is your NEW web app URL
 ══════════════════════════════════════════════ */
-const SHEET_URL = "https://script.google.com/macros/s/AKfycbzbB1bmKQVDNN9Am7mgC9q-nIJQHhjkakRYmLjiHSrfVUI0rybzWSQ0JkLYkwIF3kvMlg/exec";
+const SHEET_URL = "https://script.google.com/macros/s/AKfycbzkT7ZMprLvL2ReEYcxcsVIVml_7ev-5BLtLDXXQWf14Ynoo68fm3q6n2oM3VRsFo2N/exec";
 
 /* ══════════════════════════════════════════════
-   DEFAULT USERS — stored in localStorage
-   TPD-admin is hardcoded & cannot be deleted
+   DEFAULT USERS
 ══════════════════════════════════════════════ */
 const SUPER_ADMIN = { username:"TPD-admin", displayName:"TPD Admin", password:"tpd@2026", role:"admin" };
 
@@ -314,7 +271,6 @@ function getUsers(){
   return [SUPER_ADMIN, ...extra];
 }
 function saveUsers(list){
-  // Never save super admin in list (it's hardcoded)
   const filtered = list.filter(u => u.username !== SUPER_ADMIN.username);
   localStorage.setItem('dprUsers', JSON.stringify(filtered));
 }
@@ -329,56 +285,45 @@ let _dashPeriod   = 'week';
 /* ══ INIT ══ */
 window.onload = function(){
   renderLoginChips();
-
   try{
     const s = sessionStorage.getItem('dprUser');
     if(s){ _currentUser = JSON.parse(s); showApp(); }
   }catch(e){}
-
+  
+  // Set Date cleanly
   document.getElementById('date').value = new Date().toISOString().split('T')[0];
-  setupSignature();
-  loadVersion();
 
   window.addEventListener('offline', ()=>{ document.getElementById('offlineBadge').style.display='block'; });
   window.addEventListener('online',  ()=>{ document.getElementById('offlineBadge').style.display='none'; syncOfflineQueue(); });
   if(!navigator.onLine) document.getElementById('offlineBadge').style.display='block';
 };
 
-/* ══ LOGIN CHIPS ══ */
+/* ══ LOGIN ══ */
 function renderLoginChips(){
   const wrap = document.getElementById('userChips');
   wrap.innerHTML = '';
   getUsers().forEach(u => {
     const c = document.createElement('div');
-    c.className = 'user-chip';
-    c.textContent = u.username;
+    c.className = 'user-chip'; c.textContent = u.username;
     c.onclick = () => { document.getElementById('loginName').value = u.username; document.getElementById('loginPass').focus(); };
     wrap.appendChild(c);
   });
 }
 
-/* ══ LOGIN ══ */
 function doLogin(){
   const uname = document.getElementById('loginName').value.trim();
   const pass  = document.getElementById('loginPass').value;
   const user  = getUsers().find(u => u.username.toLowerCase() === uname.toLowerCase() && u.password === pass);
-  if(!user){
-    document.getElementById('loginErr').textContent = '❌ Invalid username or password.';
-    document.getElementById('loginPass').value = '';
-    return;
-  }
-  _currentUser = user;
-  sessionStorage.setItem('dprUser', JSON.stringify(user));
+  if(!user){ document.getElementById('loginErr').textContent = '❌ Invalid username or password.'; return; }
+  _currentUser = user; sessionStorage.setItem('dprUser', JSON.stringify(user));
   showApp();
 }
 
 function doLogout(){
-  sessionStorage.removeItem('dprUser');
-  _currentUser = null;
+  sessionStorage.removeItem('dprUser'); _currentUser = null;
   document.getElementById('loginOverlay').style.display = 'flex';
   document.getElementById('loginPass').value = '';
   document.getElementById('loginErr').textContent = '';
-  document.getElementById('loginName').value = '';
   renderLoginChips();
 }
 
@@ -386,17 +331,11 @@ function showApp(){
   document.getElementById('loginOverlay').style.display = 'none';
   document.getElementById('headerUser').textContent = '👤 ' + _currentUser.username + (_currentUser.role==='admin' ? ' · Admin' : '');
 
-  // Admin-only UI
   const isAdmin = _currentUser.role === 'admin';
   document.getElementById('adminTabBtn').style.display    = isAdmin ? 'block' : 'none';
-  document.getElementById('supervisorCard').style.display = isAdmin ? 'block' : 'none';
-  if(isAdmin){
-    document.getElementById('supervisorName').value = _currentUser.displayName || _currentUser.username;
-  }
 
   if(!document.getElementById('civilContainer').children.length)    addActivity('civilContainer','civil');
   if(!document.getElementById('interiorContainer').children.length) addActivity('interiorContainer','interior');
-
   loadHistory();
 }
 
@@ -418,35 +357,23 @@ function createUser(){
   const password    = document.getElementById('newPassword').value.trim();
   const role        = document.getElementById('newRole').value;
 
-  if(!username || !password){ showToast('⚠️ Username and Password are required'); return; }
-  if(!/^[a-zA-Z0-9_\-]+$/.test(username)){ showToast('⚠️ Username: only letters, numbers, - and _'); return; }
-
+  if(!username || !password){ showToast('⚠️ Username and Password required'); return; }
   const users = getUsers();
-  if(users.find(u => u.username.toLowerCase() === username.toLowerCase())){
-    showToast('⚠️ Username already exists'); return;
-  }
+  if(users.find(u => u.username.toLowerCase() === username.toLowerCase())){ showToast('⚠️ Username exists'); return; }
 
   const extra = JSON.parse(localStorage.getItem('dprUsers')||'[]');
   extra.push({ username, displayName: displayName||username, password, role });
   localStorage.setItem('dprUsers', JSON.stringify(extra));
-
-  document.getElementById('newUsername').value    = '';
-  document.getElementById('newDisplayName').value = '';
-  document.getElementById('newPassword').value    = '';
-
-  renderAdminUsers();
-  renderLoginChips();
-  showToast('✅ User "' + username + '" created successfully!');
+  document.getElementById('newUsername').value = ''; document.getElementById('newDisplayName').value = ''; document.getElementById('newPassword').value = '';
+  renderAdminUsers(); renderLoginChips(); showToast('✅ User created!');
 }
 
 function deleteUser(username){
-  if(username === SUPER_ADMIN.username){ showToast('❌ TPD-admin cannot be deleted'); return; }
+  if(username === SUPER_ADMIN.username) return;
   if(!confirm(`Delete user "${username}"?`)) return;
   const extra = JSON.parse(localStorage.getItem('dprUsers')||'[]');
   localStorage.setItem('dprUsers', JSON.stringify(extra.filter(u=>u.username!==username)));
-  renderAdminUsers();
-  renderLoginChips();
-  showToast('🗑️ User deleted');
+  renderAdminUsers(); renderLoginChips(); showToast('🗑️ User deleted');
 }
 
 function resetPassword(username){
@@ -454,25 +381,20 @@ function resetPassword(username){
   if(!newPass || !newPass.trim()) return;
   const extra = JSON.parse(localStorage.getItem('dprUsers')||'[]');
   const idx   = extra.findIndex(u=>u.username===username);
-  if(idx===-1){ showToast('User not found'); return; }
-  extra[idx].password = newPass.trim();
-  localStorage.setItem('dprUsers', JSON.stringify(extra));
-  showToast('✅ Password updated for "' + username + '"');
+  if(idx===-1) return;
+  extra[idx].password = newPass.trim(); localStorage.setItem('dprUsers', JSON.stringify(extra));
+  showToast('✅ Password updated');
 }
 
 function renderAdminUsers(){
-  const users = getUsers();
-  document.getElementById('adminUserList').innerHTML = users.map(u => {
+  document.getElementById('adminUserList').innerHTML = getUsers().map(u => {
     const isSuper = u.username === SUPER_ADMIN.username;
     return `
       <div class="admin-user-row">
-        <div>
-          <div class="admin-user-info">👤 ${u.username}</div>
-          <div class="admin-user-sub">${u.displayName||''} &nbsp;·&nbsp; <b>${u.role==='admin'?'Admin':'User'}</b></div>
-        </div>
+        <div><div class="admin-user-info">👤 ${u.username}</div><div class="admin-user-sub">${u.displayName||''} &nbsp;·&nbsp; <b>${u.role==='admin'?'Admin':'User'}</b></div></div>
         <div style="display:flex;gap:6px;">
-          ${!isSuper ? `<button class="btn-gray btn-sm" style="width:auto;padding:5px 10px;font-size:11px;" onclick="resetPassword('${u.username}')">🔑 Reset</button>` : ''}
-          ${!isSuper ? `<button class="btn-red btn-sm" style="width:auto;padding:5px 10px;font-size:11px;" onclick="deleteUser('${u.username}')">🗑️</button>` : '<span style="font-size:11px;color:var(--muted);padding:5px 0;">Protected</span>'}
+          ${!isSuper ? `<button class="btn-gray btn-sm" style="width:auto;padding:5px 10px;" onclick="resetPassword('${u.username}')">🔑 Reset</button>` : ''}
+          ${!isSuper ? `<button class="btn-red btn-sm" style="width:auto;padding:5px 10px;" onclick="deleteUser('${u.username}')">🗑️</button>` : '<span style="font-size:11px;color:var(--muted);padding:5px 0;">Protected</span>'}
         </div>
       </div>`;
   }).join('');
@@ -483,15 +405,12 @@ function addActivity(cid, type){
   const all   = type==='civil' ? CIVIL_OPTIONS : INTERIOR_OPTIONS;
   const used  = Array.from(document.querySelectorAll(`#${cid} .activity`)).map(s=>s.value);
   const avail = all.filter(o => !used.includes(o) || o==='Misc. Work');
-  if(!avail.length){ showToast('⚠️ All activities have already been added'); return; }
+  if(!avail.length){ showToast('⚠️ All activities added'); return; }
 
-  const div = document.createElement('div');
-  div.className = 'activitybox';
+  const div = document.createElement('div'); div.className = 'activitybox';
   div.innerHTML = `
     <label>Activity</label>
-    <select class="activity" onchange="refreshDropdowns('${cid}','${type}')">
-      ${avail.map(o=>`<option value="${o}">${o}</option>`).join('')}
-    </select>
+    <select class="activity" onchange="refreshDropdowns('${cid}','${type}')">${avail.map(o=>`<option value="${o}">${o}</option>`).join('')}</select>
     <div class="row2">
       <div><label>Skilled</label><input type="number" class="skill" value="0" min="0"></div>
       <div><label>Unskilled</label><input type="number" class="unskill" value="0" min="0"></div>
@@ -500,81 +419,40 @@ function addActivity(cid, type){
     <input type="text" class="desc" placeholder="Work location or note...">
     <button class="delete-btn" onclick="removeActivity(this,'${cid}','${type}')">🗑️ Remove</button>
   `;
-  document.getElementById(cid).appendChild(div);
-  refreshDropdowns(cid, type);
+  document.getElementById(cid).appendChild(div); refreshDropdowns(cid, type);
 }
 
-function removeActivity(btn, cid, type){
-  btn.closest('.activitybox').remove();
-  refreshDropdowns(cid, type);
-}
+function removeActivity(btn, cid, type){ btn.closest('.activitybox').remove(); refreshDropdowns(cid, type); }
 
 function refreshDropdowns(cid, type){
-  const all  = type==='civil' ? CIVIL_OPTIONS : INTERIOR_OPTIONS;
+  const all = type==='civil' ? CIVIL_OPTIONS : INTERIOR_OPTIONS;
   const sels = document.querySelectorAll(`#${cid} .activity`);
   const vals = Array.from(sels).map(s=>s.value);
   sels.forEach((sel,i)=>{
-    const mine   = vals[i];
-    const others = vals.filter((_,j)=>j!==i);
-    const vis    = all.filter(o => o===mine || o==='Misc. Work' || !others.includes(o));
+    const mine = vals[i]; const others = vals.filter((_,j)=>j!==i);
+    const vis = all.filter(o => o===mine || o==='Misc. Work' || !others.includes(o));
     sel.innerHTML = vis.map(o=>`<option value="${o}" ${o===mine?'selected':''}>${o}</option>`).join('');
   });
 }
 
-/* ══ SIGNATURE ══ */
-let sigDrawing=false, sigCtx, sigCanvas;
-function setupSignature(){
-  sigCanvas = document.getElementById('sigCanvas');
-  sigCtx    = sigCanvas.getContext('2d');
-  const dpr = window.devicePixelRatio||1;
-  sigCanvas.width  = (sigCanvas.offsetWidth||400)*dpr;
-  sigCanvas.height = 88*dpr;
-  sigCtx.scale(dpr,dpr);
-  sigCtx.strokeStyle='#1b3c74'; sigCtx.lineWidth=2.2; sigCtx.lineCap='round';
-  const pt = e => { const r=sigCanvas.getBoundingClientRect(); const s=e.touches?e.touches[0]:e; return{x:s.clientX-r.left,y:s.clientY-r.top}; };
-  sigCanvas.addEventListener('mousedown', e=>{sigDrawing=true;sigCtx.beginPath();const p=pt(e);sigCtx.moveTo(p.x,p.y);});
-  sigCanvas.addEventListener('mousemove', e=>{if(!sigDrawing)return;const p=pt(e);sigCtx.lineTo(p.x,p.y);sigCtx.stroke();});
-  sigCanvas.addEventListener('mouseup',   ()=>sigDrawing=false);
-  sigCanvas.addEventListener('mouseleave',()=>sigDrawing=false);
-  sigCanvas.addEventListener('touchstart',e=>{e.preventDefault();sigDrawing=true;sigCtx.beginPath();const p=pt(e);sigCtx.moveTo(p.x,p.y);},{passive:false});
-  sigCanvas.addEventListener('touchmove', e=>{e.preventDefault();if(!sigDrawing)return;const p=pt(e);sigCtx.lineTo(p.x,p.y);sigCtx.stroke();},{passive:false});
-  sigCanvas.addEventListener('touchend',  ()=>sigDrawing=false);
-}
-function clearSig(){ sigCtx.clearRect(0,0,sigCanvas.width,sigCanvas.height); }
-function isSigEmpty(){ return !sigCtx.getImageData(0,0,sigCanvas.width,sigCanvas.height).data.some(v=>v!==0); }
-
-/* ══ BUILD ACTIVITIES ══ */
 function buildActivities(cid){
   const c=document.getElementById(cid);
-  const acts=c.querySelectorAll('.activity'), sks=c.querySelectorAll('.skill');
-  const uns=c.querySelectorAll('.unskill'),  dcs=c.querySelectorAll('.desc');
+  const acts=c.querySelectorAll('.activity'), sks=c.querySelectorAll('.skill'), uns=c.querySelectorAll('.unskill'), dcs=c.querySelectorAll('.desc');
   let html='', sub=0;
   for(let i=0;i<acts.length;i++){
-    const sk=Math.max(0,Number(sks[i].value)), un=Math.max(0,Number(uns[i].value));
-    const dc=dcs[i].value.trim(); sub+=sk+un;
-    html+=`<div class="report-activity"><u>${acts[i].value.trim()}</u><br>Skilled : <b>${sk}</b> &nbsp;|&nbsp; Unskilled : <b>${un}</b>${dc?`<br><i style="color:#666;font-size:12px;">📌 ${dc}</i>`:''}</div>`;
+    const sk=Math.max(0,Number(sks[i].value)), un=Math.max(0,Number(uns[i].value)), dc=dcs[i].value.trim(); sub+=sk+un;
+    if(sk>0 || un>0) html+=`<div class="report-activity"><u>${acts[i].value.trim()}</u><br>Skilled : <b>${sk}</b> &nbsp;|&nbsp; Unskilled : <b>${un}</b>${dc?`<br><i style="color:#666;font-size:12px;">📌 ${dc}</i>`:''}</div>`;
   }
   return {html,subtotal:sub};
 }
 
-/* ══ BUILD ACTIVITIES — clean data for Sheet ══ */
 function buildActivitiesData(cid){
-  const c    = document.getElementById(cid);
-  const acts = c.querySelectorAll('.activity');
-  const sks  = c.querySelectorAll('.skill');
-  const uns  = c.querySelectorAll('.unskill');
-  const dcs  = c.querySelectorAll('.desc');
+  const c = document.getElementById(cid);
+  const acts = c.querySelectorAll('.activity'), sks = c.querySelectorAll('.skill'), uns = c.querySelectorAll('.unskill'), dcs = c.querySelectorAll('.desc');
   const rows = [];
   for(let i=0;i<acts.length;i++){
-    const sk = Math.max(0,Number(sks[i].value));
-    const un = Math.max(0,Number(uns[i].value));
-    if(sk===0 && un===0) continue; // skip empty rows
-    rows.push({
-      activity: acts[i].value.trim(),
-      skilled:  sk,
-      unskilled:un,
-      note:     dcs[i].value.trim()
-    });
+    const sk = Math.max(0,Number(sks[i].value)), un = Math.max(0,Number(uns[i].value));
+    if(sk>0 || un>0) rows.push({ activity: acts[i].value.trim(), skilled: sk, unskilled:un, note: dcs[i].value.trim() });
   }
   return rows;
 }
@@ -589,38 +467,21 @@ function generate(){
   const civil    = buildActivities('civilContainer');
   const interior = buildActivities('interiorContainer');
   const total    = civil.subtotal + interior.subtotal;
-  const timeStr  = new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
 
-  // Prepared by / Edited by logic
   const existing   = _historyCache.find(h => toYMD(h.date)===dateVal && h.site===siteVal);
   const preparedBy = existing ? (existing.by || _currentUser.username) : _currentUser.username;
   const editedBy   = (existing && existing.by !== _currentUser.username) ? _currentUser.username : null;
 
-  const supName  = document.getElementById('supervisorName').value.trim();
-  const supDesig = document.getElementById('supervisorDesig').value.trim();
-  const supRem   = document.getElementById('supervisorRemarks').value.trim();
-  const sigImg   = !isSigEmpty() ? `<br><img src="${sigCanvas.toDataURL()}" style="max-height:50px;margin-top:6px;border:1px solid #ddd;border-radius:4px;">` : '';
-
   document.getElementById('rdate').innerHTML =
-    `<b>Date :</b> ${formatDate(dateVal)} &nbsp;|&nbsp; <b>Time :</b> ${timeStr}<br>
-     <b>Site :</b> ${siteVal}<br>
-     <b>Prepared by :</b> ${preparedBy}
-     ${editedBy ? ` &nbsp;|&nbsp; <b>Edited by :</b> ${editedBy}` : ''}`;
+    `<b>📅 Date :</b> ${formatDate(dateVal)}<br>
+     <b>📍 Site :</b> ${siteVal}<br>
+     <b>👤 Filled by :</b> ${preparedBy} ${editedBy ? `(Edited by: ${editedBy})` : ''}`;
 
   document.getElementById('rcivil').innerHTML =
-    `<div class="report-section-title">🏗️ Civil Work</div>${civil.html}
-     <div class="report-section-title">🏢 Interior Work</div>${interior.html}`;
+    (civil.html ? `<div class="report-section-title">🏗️ Civil Work</div>${civil.html}` : '') +
+    (interior.html ? `<div class="report-section-title">🏢 Interior Work</div>${interior.html}` : '');
 
-  document.getElementById('rmanpower').innerHTML =
-    `<div class="report-total">👷 Total Manpower : ${total}</div>`;
-
-  document.getElementById('rsupervisor').innerHTML =
-    `<div class="report-supervisor">
-      <b>Supervisor :</b> ${supName||'—'}
-      ${supDesig?` &nbsp;|&nbsp; <b>Designation :</b> ${supDesig}`:''}
-      ${supRem?`<br><span style="color:#555;">📝 ${supRem}</span>`:''}
-      ${sigImg}
-    </div>`;
+  document.getElementById('rmanpower').innerHTML = `<div class="report-total">👷 Total Manpower : ${total}</div>`;
 
   document.getElementById('report').style.display = 'block';
   document.getElementById('report').scrollIntoView({behavior:'smooth'});
@@ -631,21 +492,11 @@ function generate(){
 
 /* ══ SAVE ══ */
 function saveToCloud(dateVal, siteVal, total, preparedBy, editedBy){
-  // Build clean structured activity data for Sheet (no HTML)
-  const civilData    = buildActivitiesData('civilContainer');
-  const interiorData = buildActivitiesData('interiorContainer');
-  const supName  = document.getElementById('supervisorName').value.trim();
-  const supDesig = document.getElementById('supervisorDesig').value.trim();
-
   const payload = {
     date: dateVal, site: siteVal, total: total,
-    report: document.getElementById('report').innerHTML,  // kept for View Report only
-    civilActivities:    JSON.stringify(civilData),
-    interiorActivities: JSON.stringify(interiorData),
-    supervisor: supName + (supDesig ? ' ('+supDesig+')' : ''),
-    by: preparedBy,
-    editedBy: editedBy || '',
-    _sheetClean: true   // signal to Apps Script: write flat rows, no JSON blobs
+    civilActivities:    JSON.stringify(buildActivitiesData('civilContainer')),
+    interiorActivities: JSON.stringify(buildActivitiesData('interiorContainer')),
+    by: preparedBy, editedBy: editedBy || ''
   };
   if(!navigator.onLine){
     let q=JSON.parse(localStorage.getItem('dprOfflineQ')||'[]');
@@ -654,30 +505,28 @@ function saveToCloud(dateVal, siteVal, total, preparedBy, editedBy){
   }
   showToast('☁️ Saving to cloud...');
   fetch(SHEET_URL,{method:'POST',body:JSON.stringify(payload)})
-    .then(r=>r.json())
-    .then(()=>{ showToast('✅ Saved to cloud!'); loadHistory(); })
+    .then(r=>r.json()).then(()=>{ showToast('✅ Saved to cloud!'); loadHistory(); })
     .catch(()=>showToast('⚠️ Save failed — check internet connection'));
 }
 
 function syncOfflineQueue(){
   let q=JSON.parse(localStorage.getItem('dprOfflineQ')||'[]');
   if(!q.length) return;
-  showToast(`🔄 Syncing ${q.length} pending DPR(s)...`);
+  showToast(`🔄 Syncing pending DPR(s)...`);
   Promise.all(q.map(p=>fetch(SHEET_URL,{method:'POST',body:JSON.stringify(p)})))
-    .then(()=>{ localStorage.removeItem('dprOfflineQ'); showToast('✅ All records synced!'); loadHistory(); })
-    .catch(()=>showToast('⚠️ Sync failed, will retry later'));
+    .then(()=>{ localStorage.removeItem('dprOfflineQ'); showToast('✅ All synced!'); loadHistory(); })
+    .catch(()=>showToast('⚠️ Sync failed'));
 }
 
-/* ══ LOAD HISTORY ══ */
+/* ══ LOAD & RENDER HISTORY ══ */
 function loadHistory(){
   document.getElementById('historyList').innerHTML='<p style="color:#aaa;text-align:center;padding:12px;">⏳ Loading records...</p>';
   fetch(SHEET_URL)
     .then(r=>r.json())
     .then(d=>{ _historyCache=Array.isArray(d)?d:[]; renderHistory(); renderDashboard(); })
-    .catch(()=>{ document.getElementById('historyList').innerHTML='<p style="color:#e57373;text-align:center;padding:10px;">⚠️ Failed to load — check internet connection</p>'; });
+    .catch(()=>{ document.getElementById('historyList').innerHTML='<p style="color:#e57373;text-align:center;padding:10px;">⚠️ Failed to load</p>'; });
 }
 
-/* ══ RENDER HISTORY ══ */
 function renderHistory(){
   const sDate = document.getElementById('searchDate').value;
   const sSite = document.getElementById('searchSite').value.toLowerCase().trim();
@@ -686,62 +535,67 @@ function renderHistory(){
     if(sSite && !String(item.site).toLowerCase().includes(sSite)) return false;
     return true;
   });
-  if(!filtered.length){
-    document.getElementById('historyList').innerHTML='<p style="color:#aaa;text-align:center;padding:12px;">No records found</p>'; return;
-  }
-  document.getElementById('historyList').innerHTML = filtered.map(item=>{
-    const ri  = _historyCache.indexOf(item);
-    const d   = toYMD(item.date);
-    const byLine = item.by
-      ? (item.editedBy && item.editedBy!==item.by
-          ? `Prepared by: <b>${item.by}</b> &nbsp;·&nbsp; Edited by: <b>${item.editedBy}</b>`
-          : `by <b>${item.by}</b>`)
-      : '';
-    const delBtn = (_currentUser && _currentUser.role==='admin')
-      ? `<button class="btn-red btn-sm" onclick="deleteDPR(${ri})" style="width:auto;padding:6px 10px;">🗑️</button>` : '';
+  if(!filtered.length){ document.getElementById('historyList').innerHTML='<p style="color:#aaa;text-align:center;padding:12px;">No records found</p>'; return; }
+  
+  document.getElementById('historyList').innerHTML = filtered.map((item, ri)=>{
+    const d = toYMD(item.date);
+    const byLine = item.by ? (item.editedBy && item.editedBy!==item.by ? `By: <b>${item.by}</b> (Edited: ${item.editedBy})` : `By: <b>${item.by}</b>`) : '';
+    const delBtn = (_currentUser && _currentUser.role==='admin') ? `<button class="btn-red btn-sm" onclick="deleteDPR(${ri})" style="width:auto;padding:6px 10px;">🗑️</button>` : '';
     return `
       <div class="history-item">
         <div style="font-size:14px;font-weight:700;">📅 ${formatDate(d)} &nbsp;<span style="font-size:12px;font-weight:400;color:var(--muted);">${byLine}</span></div>
         <div style="font-size:12px;color:var(--muted);margin-top:3px;">📍 ${item.site} &nbsp;·&nbsp; 👷 <b>${item.total}</b> workers</div>
-        <div class="hbtn-group">
-          <button class="btn-blue btn-sm" onclick="openDPR(${ri})">📂 View Report</button>
-          ${delBtn}
-        </div>
+        <div class="hbtn-group"><button class="btn-blue btn-sm" onclick="openDPR(${ri})">📂 View Report</button>${delBtn}</div>
       </div>`;
   }).join('');
 }
 
+// ── FIXED VIEW REPORT FUNC ──
 function openDPR(i){
   const item=_historyCache[i]; if(!item) return;
+  
+  // Format plain text activity data from backend to clean UI
+  const activitiesText = item.report || 'No activity details';
+  const formattedActivities = activitiesText.split('  |  ').map(act => {
+     return `<div class="report-activity" style="border-left:3px solid var(--accent); background:#fffbf5; padding:8px; margin-bottom:6px;"><b>${act}</b></div>`;
+  }).join('');
+
+  const byLine = item.editedBy ? `${item.by} (Edited by: ${item.editedBy})` : item.by;
+
+  const html = `
+    <h3>DPR — MAN POWER REPORT</h3>
+    <div class="report-meta">
+      <b>📅 Date:</b> ${formatDate(item.date)}<br>
+      <b>📍 Site:</b> ${item.site}<br>
+      <b>👤 Filled by:</b> ${byLine}
+    </div>
+    <div class="report-section-title">📝 Activity Wise Report</div>
+    ${formattedActivities}
+    <div class="report-total">👷 Total Manpower : ${item.total}</div>
+  `;
+
   document.getElementById('report').style.display='block';
-  document.getElementById('report').innerHTML=item.report||'<p style="color:#aaa;">Report detail not available</p>';
+  document.getElementById('report').innerHTML = html;
   switchTab('Form', document.querySelector('.tab-btn'));
   setTimeout(()=>document.getElementById('report').scrollIntoView({behavior:'smooth'}),120);
 }
 
 function deleteDPR(i){
-  if(!_currentUser||_currentUser.role!=='admin'){ showToast('❌ Only Admin can delete records'); return; }
+  if(!_currentUser||_currentUser.role!=='admin'){ showToast('❌ Only Admin can delete'); return; }
   if(!confirm('Delete this DPR record?')) return;
   const item = _historyCache[i];
-  // key = "YYYY-MM-DD||SiteName" — Apps Script uses this to find the row
   const key  = toYMD(item.date) + '||' + item.site;
   fetch(SHEET_URL,{method:'POST',body:JSON.stringify({action:'delete',id:key})})
-    .then(r=>r.json())
-    .then(()=>{ showToast('🗑️ Deleted!'); loadHistory(); })
+    .then(r=>r.json()).then(()=>{ showToast('🗑️ Deleted!'); loadHistory(); })
     .catch(()=>showToast('⚠️ Delete failed'));
 }
 
 /* ══ DASHBOARD ══ */
-function setPeriod(p,btn){
-  _dashPeriod=p;
-  document.querySelectorAll('.period-tab').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active'); renderDashboard();
-}
+function setPeriod(p,btn){ _dashPeriod=p; document.querySelectorAll('.period-tab').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); renderDashboard(); }
 function renderDashboard(){
   if(!_historyCache.length) return;
   const now=new Date();
   const filtered=_historyCache.filter(item=>{
-    // Parse date as local (split YYYY-MM-DD to avoid UTC shift)
     const parts = toYMD(item.date).split('-');
     if(parts.length !== 3) return _dashPeriod==='all';
     const d = new Date(Number(parts[0]), Number(parts[1])-1, Number(parts[2]));
@@ -749,15 +603,13 @@ function renderDashboard(){
     if(_dashPeriod==='month') return d.getMonth()===now.getMonth()&&d.getFullYear()===now.getFullYear();
     return true;
   });
-  const totalW=filtered.reduce((a,i)=>a+Number(i.total||0),0);
-  const totalD=filtered.length;
+  const totalW=filtered.reduce((a,i)=>a+Number(i.total||0),0), totalD=filtered.length;
   document.getElementById('dTotalWorkers').textContent = totalW;
   document.getElementById('dTotalDPR').textContent     = totalD;
   document.getElementById('dAvgWorkers').textContent   = totalD?Math.round(totalW/totalD):0;
   document.getElementById('dActiveSites').textContent  = [...new Set(filtered.map(i=>i.site))].length;
 
-  const siteMap={};
-  filtered.forEach(i=>{ siteMap[i.site]=(siteMap[i.site]||0)+Number(i.total||0); });
+  const siteMap={}; filtered.forEach(i=>{ siteMap[i.site]=(siteMap[i.site]||0)+Number(i.total||0); });
   const maxW=Math.max(...Object.values(siteMap),1);
   document.getElementById('siteBreakdown').innerHTML=
     Object.entries(siteMap).sort((a,b)=>b[1]-a[1]).map(([site,w])=>`
@@ -770,32 +622,23 @@ function renderDashboard(){
 
 /* ══ DOWNLOADS ══ */
 function downloadImage(){
-  const rep=document.getElementById('report');
-  if(rep.style.display==='none'){showToast('⚠️ Please generate a DPR first');return;}
+  const rep=document.getElementById('report'); if(rep.style.display==='none'){showToast('⚠️ Generate DPR first');return;}
   html2canvas(rep,{scale:2}).then(c=>{
-    const a=document.createElement('a'); a.download=`DPR_${document.getElementById('date').value}.png`; a.href=c.toDataURL(); a.click();
-    showToast('📷 Image downloaded!');
+    const a=document.createElement('a'); a.download=`DPR_${document.getElementById('date').value}.png`; a.href=c.toDataURL(); a.click(); showToast('📷 Image downloaded!');
   });
 }
 function downloadPDF(){
-  const rep=document.getElementById('report');
-  if(rep.style.display==='none'){showToast('⚠️ Please generate a DPR first');return;}
+  const rep=document.getElementById('report'); if(rep.style.display==='none'){showToast('⚠️ Generate DPR first');return;}
   html2canvas(rep,{scale:2}).then(c=>{
-    const {jsPDF}=window.jspdf;
-    const pdf=new jsPDF('p','mm','a4');
-    const w=pdf.internal.pageSize.getWidth()-20;
-    pdf.addImage(c.toDataURL('image/png'),'PNG',10,10,w,c.height*w/c.width);
-    pdf.save(`DPR_${document.getElementById('date').value}.pdf`);
-    showToast('📄 PDF downloaded!');
+    const {jsPDF}=window.jspdf; const pdf=new jsPDF('p','mm','a4'); const w=pdf.internal.pageSize.getWidth()-20;
+    pdf.addImage(c.toDataURL('image/png'),'PNG',10,10,w,c.height*w/c.width); pdf.save(`DPR_${document.getElementById('date').value}.pdf`); showToast('📄 PDF downloaded!');
   });
 }
 function copyWhats(){
-  const rep=document.getElementById('report');
-  if(rep.style.display==='none'){showToast('⚠️ Please generate a DPR first');return;}
+  const rep=document.getElementById('report'); if(rep.style.display==='none'){showToast('⚠️ Generate DPR first');return;}
   const text=rep.innerText.replace(/\n{3,}/g,'\n\n');
   navigator.clipboard.writeText(text).then(()=>showToast('💬 Copied for WhatsApp!')).catch(()=>{
-    const ta=document.createElement('textarea'); ta.value=text; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
-    showToast('💬 Copied!');
+    const ta=document.createElement('textarea'); ta.value=text; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); showToast('💬 Copied!');
   });
 }
 
@@ -810,17 +653,11 @@ function excelToStr(n){ const d=new Date(Math.round((n-25569)*86400*1000)); retu
 function toYMD(s){
   if(typeof s==='number') return excelToStr(s);
   const str = String(s).trim();
-  // ISO datetime like "2026-03-28T18:30:00.000Z" — take only YYYY-MM-DD
   if(str.includes('T')) return str.split('T')[0];
-  // Already YYYY-MM-DD
   return str;
 }
-// Safe date-only comparison — never convert to Date object (avoids UTC/IST shift)
-function sameDate(storedDate, filterDate){
-  return toYMD(storedDate) === filterDate;
-}
+function sameDate(storedDate, filterDate){ return toYMD(storedDate) === filterDate; }
 function showToast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2800); }
-function loadVersion(){ fetch("https://api.github.com/repos/dhavalkandoliya/DPR-Manpower/releases/latest").then(r=>r.json()).then(d=>document.getElementById('version').textContent=d.tag_name||'1.0').catch(()=>document.getElementById('version').textContent='1.0'); }
 </script>
 </body>
 </html>
